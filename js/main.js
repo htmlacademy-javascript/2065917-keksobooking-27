@@ -75,7 +75,7 @@ const generateText = (min, max) => Array.from({length: getRandomInt(min, max)}, 
 
 // функция генерирует рандомный массив без повторений: аргументы - длина массива и длинна массива исходных данных
 const generateRandomArray = (targetLength, originLength) => {
-  const randomArray = Array.from({length: originLength}, (value, index) => index).sort(() => Math.random() * 100 - 50);
+  const randomArray = Array.from({length: originLength}, (_, index) => index).sort(() => Math.random() * 100 - 50);
   const start = getRandomInt(0, randomArray.length - targetLength);
   if (randomArray.length === targetLength) {
     return randomArray;
@@ -120,6 +120,6 @@ const getAdvt = (number = 1) => {
 // функция создает массив заданной длины рандомных объектов объявлений
 const getFewAdvt = (quantity = 1) => {
   const quantityArray = generateRandomArray(quantity, quantity);
-  return Array.from({length: quantity}, (value, index) => getAdvt(quantityArray[index] + 1));
+  return Array.from({length: quantity}, (_, index) => getAdvt(quantityArray[index] + 1));
 };
 getFewAdvt(ADVT_QUANTITY);
