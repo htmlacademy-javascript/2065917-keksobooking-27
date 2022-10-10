@@ -81,12 +81,13 @@ const getRandomArrayFromArray = (originArray) => {
 // ГЕНЕРАЦИЯ СЛУЧАЙНЫХ ОБЪЯВЛЕНИЙ
 
 // функция создает рандомный объект объявления
-const getAdvt = (number) => {
+const getAdvt = (number = 1) => {
   const lat = getRandomFloat(35.65000, 35.70000, 5);
   const lng = getRandomFloat(39.70000, 139.80000, 5);
 
   return {
-    author: {avatar: number < 10 ? `img/avatars/user0${number}.png` : `img/avatars/user${number}.png`},
+    // author: {avatar: number < 10 ? `img/avatars/user0${number}.png` : `img/avatars/user${number}.png`},
+    author: {avatar: `img/avatars/user${number.toString().padStart(2, '0')}.png`},
     offer: {
       title: generateText(1, 5),
       address: `${lat}, ${lng}`,
@@ -105,7 +106,7 @@ const getAdvt = (number) => {
 };
 
 // функция создает массив заданной длины рандомных объектов объявлений
-const getFewAdvt = (quantity) => {
+const getFewAdvt = (quantity = 1) => {
   const quantityArray = generateRandomArray(quantity, quantity);
   return Array.from({length: quantity}, (value, index) => getAdvt(quantityArray[index] + 1));
 };
