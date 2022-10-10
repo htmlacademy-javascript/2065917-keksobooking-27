@@ -43,8 +43,18 @@ const ADVT_QUANTITY = 10;
 // рандомный текст для генерации строк в объявлениях
 const RANDOM_TEXT = 'разнообразный и богатый опыт говорит нам что высокотехнологичная концепция общественного уклада предполагает независимые способы реализации глубокомысленных рассуждений безусловно внедрение современных методик способствует подготовке и реализации экономической целесообразности принимаемых решений наше дело не так однозначно как может показаться постоянное информационнопропагандистское обеспечение нашей деятельности требует от нас анализа дальнейших направлений развития ясность нашей позиции очевидна курс на социальноориентированный национальный проект не оставляет шанса для благоприятных перспектив в своём стремлении улучшить пользовательский опыт мы упускаем что базовые сценарии поведения пользователей инициированные исключительно синтетически ассоциативно распределены по отраслям задача организации в особенности же новая модель организационной деятельности создаёт предпосылки для новых предложений современные технологии достигли такого уровня что высококачественный прототип будущего проекта в своём классическом представлении допускает внедрение как самодостаточных так и внешне зависимых концептуальных решений с учётом сложившейся международной обстановки внедрение современных методик способствует подготовке и реализации системы массового участия в своём стремлении повысить качество жизни они забывают что высокое качество позиционных исследований обеспечивает широкому кругу специалистов участие в формировании форм воздействия равным образом высокотехнологичная концепция общественного уклада позволяет выполнить важные задания по разработке форм воздействия ясность нашей позиции очевидна граница обучения кадров предполагает независимые способы реализации новых предложений с учётом сложившейся международной обстановки экономическая повестка сегодняшнего дня предопределяет высокую востребованность новых принципов формирования материальнотехнической и кадровой базы банальные но неопровержимые выводы а также акционеры крупнейших компаний лишь добавляют фракционных разногласий и подвергнуты целой серии независимых исследований сложно сказать почему реплицированные с зарубежных источников современные исследования преданы анафеме а также сделанные на базе интернетаналитики выводы вне зависимости от их уровня должны быть преданы анафеме';
 const RANDOM_TEXT_ARRAY = RANDOM_TEXT.split(' '); // для удобства рандомный текст преобразован в массив
+// длина заголовка
+const TITLE_LENGTH = {min: 1, max: 5};
+// длина описания
+const DESCRIBTION_LENGTH = {min: 5, max: 42};
+// диапазон цен
+const PRICE_RANGE = {min: 1, max: 50, factor: 1000};
 // тип жилища
 const HOUSING_TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+// диапазон количетсва комнат
+const ROOMS_RANGE = {min: 1, max: 8};
+// диапазон количетсва гостей
+const GUESTS_RANGE = {min: 1, max: 15};
 // время заезда/выезда
 const CHECK_TIMING = ['12:00', '13:00', '14:00'];
 // дополнительно
@@ -54,6 +64,9 @@ const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/ke
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
+// диапазон координат
+const LAT_RANGE = {min: 35.65000, max: 35.70000, digits: 5};
+const LNG_RANGE = {min: 39.70000, max: 139.80000, digits: 5};
 
 // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 
@@ -82,23 +95,22 @@ const getRandomArrayFromArray = (originArray) => {
 
 // функция создает рандомный объект объявления
 const getAdvt = (number = 1) => {
-  const lat = getRandomFloat(35.65000, 35.70000, 5);
-  const lng = getRandomFloat(39.70000, 139.80000, 5);
+  const lat = getRandomFloat(...Object.values(LAT_RANGE));
+  const lng = getRandomFloat(...Object.values(LNG_RANGE));
 
   return {
-    // author: {avatar: number < 10 ? `img/avatars/user0${number}.png` : `img/avatars/user${number}.png`},
     author: {avatar: `img/avatars/user${number.toString().padStart(2, '0')}.png`},
     offer: {
-      title: generateText(1, 5),
+      title: generateText(...Object.values(TITLE_LENGTH)),
       address: `${lat}, ${lng}`,
-      price: getRandomFloat(0.1, 5, 1) * 10000,
+      price: getRandomInt(...Object.values(PRICE_RANGE)) * PRICE_RANGE.factor,
       type: HOUSING_TYPE[getRandomInt(1, HOUSING_TYPE.length - 1)],
-      rooms: getRandomInt(1, 8),
-      guests: getRandomInt(1, 15),
+      rooms: getRandomInt(...Object.values(ROOMS_RANGE)),
+      guests: getRandomInt(...Object.value(GUESTS_RANGE)),
       checkin: CHECK_TIMING[getRandomInt(1, CHECK_TIMING.length - 1)],
       checkout: CHECK_TIMING[getRandomInt(1, CHECK_TIMING.length - 1)],
       features: getRandomArrayFromArray(FEATURES),
-      description: generateText(5, 42),
+      description: generateText(...Object.values(DESCRIBTION_LENGTH)),
       photos: getRandomArrayFromArray(PHOTOS),
     },
     location: {lat: lat, lng: lng}
