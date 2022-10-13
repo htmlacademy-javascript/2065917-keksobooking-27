@@ -169,22 +169,34 @@ const LNG_RANGE = {min: 39.70000, max: 139.80000, digits: 5};
 
 // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 
-// функция генерирует рандомный массив без повторений: аргументы - длина массива и длинна массива исходных данных
-const generateRandomArray = (targetLength, originLength) => {
-  const randomArray = Array.from({length: originLength}, (_, index) => index).sort(() => Math.random() * 100 - 50);
-  const start = getRandomInt(0, randomArray.length - targetLength);
-  if (randomArray.length === targetLength) {
-    return randomArray;
-  }
-  return randomArray.slice(start, start + targetLength);
+// генератор уникальных рандомных индексов массивов из диапазона от minValue до maxValue
+const generateRandomIndex = () => {
+  const randomArray = [];
+  return (minValue, maxValue) => {
+    let randomIndex = getRandomInt(minValue, maxValue);
+    if (randomArray.length >= maxValue - minValue + 1) {
+      return NaN;
+    }
+    while (randomArray.includes(randomIndex)) {
+      randomIndex = getRandomInt(minValue, maxValue);
+    }
+    randomArray.push(randomIndex);
+    return randomIndex;
+  };
 };
-// функция генерирует рандомный массив рандомной длины из элементов другого массива без повторений
+
+// функция генерации рандомного массива из исходного массива без повторений
 const getRandomArrayFromArray = (originArray) => {
   const randomLength = getRandomInt(1, originArray.length);
   if (randomLength === originArray.length) {
     return originArray;
   }
-  return generateRandomArray(randomLength, originArray.length).map((value) => originArray[value]);
+  const arrayIndex = generateRandomIndex(); // генератор индексов рандомного массива
+  const outputArray = Array(randomLength).fill().map((item) => {
+    item = originArray[arrayIndex(0, originArray.length - 1)];
+    return item;
+  });
+  return outputArray;
 };
 
 // ГЕНЕРАЦИЯ СЛУЧАЙНЫХ ОБЪЯВЛЕНИЙ
@@ -215,7 +227,7 @@ const getAdvt = (number = 1) => {
 
 // функция создает массив заданной длины рандомных объектов объявлений
 const getFewAdvt = (quantity = 1) => {
-  const quantityArray = generateRandomArray(quantity, quantity);
-  return Array.from({length: quantity}, (_, index) => getAdvt(quantityArray[index] + 1));
+  const userCounter = generateRandomIndex(); // генератор индексов аватаров пользователей
+  return Array.from({length: quantity}, () => getAdvt(userCounter(1, quantity)));
 };
 getFewAdvt(ADVT_QUANTITY);
