@@ -1,6 +1,6 @@
 // ИСХОДНЫЕ ДАННЫЕ
 
-// рандомные
+// рандомные заголовки
 const RANDOM_TITLES = [
   'независимые с представлении экономической',
   'акционеры независимые',
@@ -53,6 +53,7 @@ const RANDOM_TITLES = [
   'позиции базе принципов',
   'материальнотехнической стремлении'
 ];
+
 // рандомные описания
 const RANDOM_DESCRIPTION = [
   'информационнопропагандистское как принимаемых очевидна международной способы обстановки современных внедрение внедрение предопределяет концепция внедрение анафеме исключительно в также специалистов а с особенности предложений с для специалистов концепция оставляет',
@@ -106,23 +107,31 @@ const RANDOM_DESCRIPTION = [
   'и развития принимаемых реализации методик своём показаться от как массового уклада позволяет не методик по акционеры концепция развития общественного от',
   'преданы специалистов на что деятельности методик серии внедрение классическом уровня методик кадровой и однозначно качество способствует опыт сказать дальнейших формировании решений реализации решений своём'
 ];
+
 // диапазон цен
 const PRICE_RANGE = {min: 1, max: 50, factor: 1000};
+
 // тип жилища
 const HOUSING_TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+
 // диапазон количетсва комнат
 const ROOMS_RANGE = {min: 1, max: 8};
+
 // диапазон количетсва гостей
 const GUESTS_RANGE = {min: 1, max: 15};
+
 // время заезда/выезда
 const CHECK_TIMING = ['12:00', '13:00', '14:00'];
+
 // дополнительно
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
 // фотографии
 const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
+
 // диапазон координат
 const LAT_RANGE = {min: 35.65000, max: 35.70000, digits: 5};
 const LNG_RANGE = {min: 39.70000, max: 139.80000, digits: 5};

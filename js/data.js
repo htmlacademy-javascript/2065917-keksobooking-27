@@ -10,7 +10,7 @@ import {
   PHOTOS,
   LAT_RANGE,
   LNG_RANGE
-} from './data-set.js';
+} from './constants.js';
 
 import {
   getRandomInt,
