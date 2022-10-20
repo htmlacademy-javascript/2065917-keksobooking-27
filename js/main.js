@@ -1,10 +1,6 @@
-import {
-  getAdvt,
-  getFewAdvt,
-} from './data.js';
+import {cardArrayFragment} from './card.js';
 
-// количество генерируемых объектов объявлений
-const ADVT_QUANTITY = 10;
+// добавление объявлений на карту
+const mapCanvas = document.querySelector('#map-canvas'); // временный блок с картой
+mapCanvas.appendChild(cardArrayFragment);
 
-getAdvt();
-getFewAdvt(ADVT_QUANTITY);

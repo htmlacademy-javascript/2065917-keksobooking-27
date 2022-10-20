@@ -109,7 +109,7 @@ const RANDOM_DESCRIPTION = [
 ];
 
 // диапазон цен
-const PRICE_RANGE = {min: 1, max: 50, factor: 1000};
+const PRICE_RANGE = {min: 1, max: 50, factor: 100};
 
 // тип жилища
 const HOUSING_TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
