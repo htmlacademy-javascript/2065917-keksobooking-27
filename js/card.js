@@ -1,17 +1,13 @@
 import {getFewAdvt} from './data.js';
 
-// const hideEmpty = (node, source) => {
-//   if (
-//     source === null ||
-//     source === undefined ||
-//     source === '' ||
-//     source === 0 ||
-//     Number.isNaN(source) ||
-//     !Number.isFinite(source)
-//   ) {
-//     node.remove();
-//   }
-// };
+// функция удаляет узел с пустыми входными данными
+const hideEmpty = (node, source) => {
+  if (
+    ['', 0, null, undefined, Infinity].some((item) => item === source) || Number.isNaN(source)
+  ) {
+    node.remove();
+  }
+};
 
 // словарь для отрисовки карточек
 const HOUSING_TYPE_VALUES = {
@@ -46,7 +42,7 @@ cardArray.forEach(({author, offer}) => {
 
   const cardDescription = cardNew.querySelector('.popup__description');
   cardDescription.textContent = offer.description;
-  // hideEmpty(cardDescription, offer.description);
+  hideEmpty(cardDescription, offer.description);
 
   // массив фич
   const featureList = cardNew.querySelectorAll('.popup__feature');
