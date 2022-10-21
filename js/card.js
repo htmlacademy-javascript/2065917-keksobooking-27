@@ -19,6 +19,7 @@ const HOUSING_TYPE_VALUES = {
 };
 
 // подготовка шаблона
+const mapCanvas = document.querySelector('#map-canvas'); // временный блок с картой
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup'); // шаблон объявления
 
 // количество генерируемых объектов объявлений
@@ -71,4 +72,5 @@ cardArray.forEach(({author, offer}) => {
   cardArrayFragment.appendChild(cardNew);
 });
 
-export {cardArrayFragment};
+// добавление объявлений на карту
+mapCanvas.appendChild(cardArrayFragment);
