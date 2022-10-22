@@ -1,11 +1,11 @@
-import {getFewAdvt} from './data.js';
+import {getAdvertismentArray} from './data.js';
 
 // массив генерируемых объектов
-const ADVT_QUANTITY = 1;
-const cardArray = getFewAdvt(ADVT_QUANTITY);
+const ADVERTISMENT_QUANTITY = 1;
+const cardArray = getAdvertismentArray(ADVERTISMENT_QUANTITY);
 
 // словарь для отрисовки карточек
-const HOUSING_TYPE_DICTIONARY = {
+const HOUSING_TYPES_DICTIONARY = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
   house: 'Дом',
@@ -27,7 +27,7 @@ const getNewCard = ({author, offer}) => {
   cardNode.querySelector('.popup__text--address').textContent = offer.address;
   cardNode.querySelector('.popup__text--price').textContent = `${offer.price}`;
   cardNode.querySelector('.popup__text--price').innerHTML += ' <span>₽/ночь</span>';
-  cardNode.querySelector('.popup__type').textContent = HOUSING_TYPE_DICTIONARY[offer.type];
+  cardNode.querySelector('.popup__type').textContent = HOUSING_TYPES_DICTIONARY[offer.type];
   cardNode.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardNode.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 

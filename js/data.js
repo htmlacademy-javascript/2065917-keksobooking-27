@@ -1,11 +1,11 @@
 import {
   RANDOM_TITLES,
-  RANDOM_DESCRIPTION,
+  RANDOM_DESCRIPTIONS,
   PRICE_RANGE,
-  HOUSING_TYPE,
+  HOUSING_TYPES,
   ROOMS_RANGE,
   GUESTS_RANGE,
-  CHECK_TIMING,
+  CHECK_TIMINGS,
   FEATURES,
   PHOTOS,
   LAT_RANGE,
@@ -22,7 +22,7 @@ import {
 // ГЕНЕРАЦИЯ СЛУЧАЙНЫХ ОБЪЯВЛЕНИЙ
 
 // функция создает рандомный объект объявления
-const getAdvt = (number = 1) => {
+const getAdvertisment = (number = 1) => {
   const lat = getRandomFloat(...Object.values(LAT_RANGE));
   const lng = getRandomFloat(...Object.values(LNG_RANGE));
 
@@ -32,13 +32,13 @@ const getAdvt = (number = 1) => {
       title: RANDOM_TITLES[getRandomInt(0, RANDOM_TITLES.length - 1)],
       address: `${lat}, ${lng}`,
       price: getRandomInt(...Object.values(PRICE_RANGE)) * PRICE_RANGE.factor,
-      type: HOUSING_TYPE[getRandomInt(0, HOUSING_TYPE.length - 1)],
+      type: HOUSING_TYPES[getRandomInt(0, HOUSING_TYPES.length - 1)],
       rooms: getRandomInt(...Object.values(ROOMS_RANGE)),
       guests: getRandomInt(...Object.values(GUESTS_RANGE)),
-      checkin: CHECK_TIMING[getRandomInt(0, CHECK_TIMING.length - 1)],
-      checkout: CHECK_TIMING[getRandomInt(0, CHECK_TIMING.length - 1)],
+      checkin: CHECK_TIMINGS[getRandomInt(0, CHECK_TIMINGS.length - 1)],
+      checkout: CHECK_TIMINGS[getRandomInt(0, CHECK_TIMINGS.length - 1)],
       features: getRandomArrayFromArray(FEATURES),
-      description: RANDOM_DESCRIPTION[getRandomInt(0, RANDOM_DESCRIPTION.length - 1)],
+      description: RANDOM_DESCRIPTIONS[getRandomInt(0, RANDOM_DESCRIPTIONS.length - 1)],
       photos: getRandomArrayFromArray(PHOTOS),
     },
     location: {lat: lat, lng: lng}
@@ -46,12 +46,12 @@ const getAdvt = (number = 1) => {
 };
 
 // функция создает массив заданной длины рандомных объектов объявлений
-const getFewAdvt = (quantity = 1) => {
+const getAdvertismentArray = (quantity = 1) => {
   const userCounter = generateRandomIndex();
   if (quantity === 1) {
-    return Array.from({length: quantity}, () => getAdvt(quantity));
+    return Array.from({length: quantity}, () => getAdvertisment(quantity));
   }
-  return Array.from({length: quantity}, () => getAdvt(userCounter(1, quantity)));
+  return Array.from({length: quantity}, () => getAdvertisment(userCounter(1, quantity)));
 };
 
-export {getFewAdvt};
+export {getAdvertismentArray};
