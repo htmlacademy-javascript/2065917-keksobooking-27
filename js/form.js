@@ -6,36 +6,34 @@ const mapFiltersForm = document.querySelector('.map__filters'); // форма ф
 const mapFiltersOptions = mapFiltersForm.querySelectorAll('fieldset, select'); // фильтры для карты
 // СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!!
 // функция для отключения форм
-const disableForm = () => {
-  // отключение формы подачи объявления
-  noticeForm.classList.add('ad-form--disabled');
-  noticeFieldSets.forEach((node) => {
-    node.disabled = true;
-  });
+const disableForm = (formNode, nodeList) => {
+  formNode.classList.add(`${formNode.classList[0]}--disabled`);
 
-  // отключение фильтров карты
-  mapFiltersForm.classList.add('map__filters--disabled');
-  mapFiltersOptions.forEach((node) => {
-    node.disabled = true;
+  nodeList.forEach((nodeItem) => {
+    nodeItem.disabled = true;
   });
 };
 
-disableForm(); // формы отключены по-умолчанию
+// отключение формы подачи объявления
+disableForm(noticeForm, noticeFieldSets);
+// отключение фильтров карты
+disableForm(mapFiltersForm, mapFiltersOptions);
 
 
 // функции для включения форм
-const enableForm = () => { // eslint-disable-line
-  // отключение формы подачи объявления
-  noticeForm.classList.remove('ad-form--disabled');
-  noticeFieldSets.forEach((node) => {
-    node.disabled = false;
-  });
+const enableForm = (formNode, nodeList) => {
+  formNode.classList.remove(`${formNode.classList[0]}--disabled`);
 
-  // отключение фильтров карты
-  mapFiltersForm.classList.remove('map__filters--disabled');
-  mapFiltersOptions.forEach((node) => {
-    node.disabled = false;
+  nodeList.forEach((nodeItem) => {
+    nodeItem.disabled = false;
   });
 };
 
-export {disableForm}; // вызвать после загрузки карты
+export {
+  noticeForm,
+  noticeFieldSets,
+  mapFiltersForm,
+  mapFiltersOptions,
+  enableForm, // вызвать после загрузки карты
+};
+
