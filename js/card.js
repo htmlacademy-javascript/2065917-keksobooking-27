@@ -1,9 +1,3 @@
-import {getAdvertismentArray} from './data.js';
-
-// массив генерируемых объектов
-const ADVERTISMENT_QUANTITY = 1;
-const cardArray = getAdvertismentArray(ADVERTISMENT_QUANTITY);
-
 // словарь для отрисовки карточек
 const HOUSING_TYPES_DICTIONARY = {
   flat: 'Квартира',
@@ -14,9 +8,7 @@ const HOUSING_TYPES_DICTIONARY = {
 };
 
 // подготовка шаблона карточки
-const mapCanvas = document.querySelector('#map-canvas'); // временный блок с картой
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup'); // шаблон объявления
-const cardArrayFragment = document.createDocumentFragment(); // фрагмент для рендеринга
 
 // функция отрисовки карточки по шаблону и данным из объекта
 const getNewCard = ({author, offer}) => {
@@ -44,7 +36,7 @@ const getNewCard = ({author, offer}) => {
     avatar: author.avatar,
     features: offer.features,
     description: offer.description,
-    photos:offer.photos
+    photos: offer.photos
   };
 
   // методы для заполнения необязательных полей
@@ -94,8 +86,4 @@ const getNewCard = ({author, offer}) => {
   return cardNode;
 };
 
-// заполнение фрагмента карточками из массива объектов
-cardArray.forEach((item) => cardArrayFragment.appendChild(getNewCard(item)));
-
-// добавление объявлений на карту
-mapCanvas.appendChild(cardArrayFragment);
+export {getNewCard};
