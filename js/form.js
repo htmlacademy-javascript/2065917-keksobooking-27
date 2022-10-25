@@ -4,7 +4,8 @@ const noticeForm = document.querySelector('.ad-form'); // форма подач�
 const noticeFieldSets = noticeForm.querySelectorAll('fieldset'); // филдсеты формы подачи объявления
 const mapFiltersForm = document.querySelector('.map__filters'); // форма фильтров
 const mapFiltersOptions = mapFiltersForm.querySelectorAll('fieldset, select'); // фильтры для карты
-// СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!! СЛАЙДЕР !!!
+// Слайдер также должен быть заблокирован
+
 // функция для отключения форм
 const disableForm = (formNode, nodeList) => {
   formNode.classList.add(`${formNode.classList[0]}--disabled`);
@@ -13,12 +14,6 @@ const disableForm = (formNode, nodeList) => {
     nodeItem.disabled = true;
   });
 };
-
-// отключение формы подачи объявления
-disableForm(noticeForm, noticeFieldSets);
-// отключение фильтров карты
-disableForm(mapFiltersForm, mapFiltersOptions);
-
 
 // функции для включения форм
 const enableForm = (formNode, nodeList) => {
@@ -34,6 +29,7 @@ export {
   noticeFieldSets,
   mapFiltersForm,
   mapFiltersOptions,
+  disableForm,
   enableForm, // вызвать после загрузки карты
 };
 
