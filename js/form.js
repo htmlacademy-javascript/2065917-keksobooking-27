@@ -1,23 +1,22 @@
-// функция для отключения форм
-const disableForm = (formNode, fieldsetList) => {
-  formNode.classList.add(`${formNode.classList[0]}--disabled`);
+// функция переключения состояния форм
 
-  fieldsetList.forEach((nodeItem) => {
-    nodeItem.disabled = true;
-  });
+// const toggleFormMode = (formNode, fieldsetList) => {
+//   formNode.classList.toggle(`${formNode.classList[0]}--disabled`);
+
+//   fieldsetList.forEach((nodeItem) => {
+//     nodeItem.disabled = !nodeItem.disabled;
+//   });
+// };
+
+// export {toggleFormMode};
+
+
+const toggleFormMode = (formNode) => {
+  formNode.classList.toggle(`${formNode.classList[0]}--disabled`);
 };
 
-// функции для включения форм
-const enableForm = (formNode, fieldsetList) => {
-  formNode.classList.remove(`${formNode.classList[0]}--disabled`);
-
-  fieldsetList.forEach((nodeItem) => {
-    nodeItem.disabled = false;
-  });
+const toggleFieldsetMode = (fieldsetItem) => {
+  fieldsetItem.disabled = !fieldsetItem.disabled;
 };
 
-export {
-  disableForm,
-  enableForm, // вызвать после загрузки карты
-};
-
+export {toggleFormMode, toggleFieldsetMode};
