@@ -1,10 +1,13 @@
-import {
-  getAdvt,
-  getFewAdvt,
-} from './data.js';
+import {getAdvertismentArray} from './data.js';
+import {getNewCard} from './card.js';
 
-// количество генерируемых объектов объявлений
-const ADVT_QUANTITY = 10;
+// массив генерируемых объектов
+const ADVERTISMENT_QUANTITY = 1;
+const cardArray = getAdvertismentArray(ADVERTISMENT_QUANTITY);
 
-getAdvt();
-getFewAdvt(ADVT_QUANTITY);
+// добавление карточек объявлений на карту
+const mapCanvas = document.querySelector('#map-canvas');
+const cardArrayFragment = document.createDocumentFragment();
+
+cardArray.forEach((item) => cardArrayFragment.appendChild(getNewCard(item)));
+mapCanvas.appendChild(cardArrayFragment);
