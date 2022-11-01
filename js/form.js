@@ -93,10 +93,10 @@ const validGuests = () => GUESTS_TO_ROOMS[guests.value].includes(rooms.value);
 
 const getRoomsErrorText = () => {
   switch (rooms.value) {
-    case '1': return 'для 1 гостя';
-    case '2': return 'от 1 до 2 гостей';
-    case '3': return 'от 1 до 3 гостей';
-    case '100': return 'не для гостей';
+    case '1': return 'Для 1 гостя';
+    case '2': return 'От 1 до 2 гостей';
+    case '3': return 'От 1 до 3 гостей';
+    case '100': return 'Не для гостей';
   }
 };
 
@@ -111,6 +111,12 @@ pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
 
 // валидаация формы
+[rooms, guests].forEach((select) => {
+  select.addEventListener('change', () => {
+    pristine.validate([rooms, guests]);
+  });
+});
+
 adForm.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
     evt.preventDefault();
