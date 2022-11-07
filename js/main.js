@@ -24,5 +24,6 @@ const forms = document.querySelectorAll('form');
 forms.forEach((form) => toggleFormMode(form));
 
 // включение форм после загрузки карты
-// forms.forEach((form) => toggleFormMode(form));
+forms.forEach((form) => toggleFormMode(form));
+
 
