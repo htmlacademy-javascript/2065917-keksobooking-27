@@ -55,12 +55,13 @@ Pristine.addMessages('ru', {
 const housingType = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 price.min = PRICE_MIN_VALUE[housingType.value];
+price.max = PRICE_MAX_VALUE;
 
 const validatePrice = () => {
   if (
     price.value !== ''
-    && parseInt(price.value, 10) <= PRICE_MAX_VALUE
-    && parseInt(price.value, 10) >= PRICE_MIN_VALUE[housingType.value]
+    && parseInt(price.value, 10) <= price.max
+    && parseInt(price.value, 10) >= price.min
   ) {
     return true;
   }
@@ -70,9 +71,9 @@ const validatePrice = () => {
 const getPriceErrorText = () => {
   if (price.value === '') {
     return 'Обязательное поле';
-  } else if (parseInt(price.value, 10) > PRICE_MAX_VALUE) {
+  } else if (parseInt(price.value, 10) > price.max) {
     return `Не более ${PRICE_MAX_VALUE} руб.`;
-  } else if (parseInt(price.value, 10) < PRICE_MIN_VALUE[housingType.value]) {
+  } else if (parseInt(price.value, 10) < price.min) {
     return `Не менее ${PRICE_MIN_VALUE[housingType.value]} руб.`;
   } else {
     return 'Неизвестная ошибка!';
@@ -113,9 +114,10 @@ pristine.addValidator(price, validatePrice, getPriceErrorText);
 pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
 
-[housingType, price].forEach((item) => {
+[housingType].forEach((item) => {
   item.addEventListener('change', () => {
     price.min = PRICE_MIN_VALUE[housingType.value];
+    price.placeholder = PRICE_MIN_VALUE[housingType.value];
     pristine.validate(price);
   });
 });
