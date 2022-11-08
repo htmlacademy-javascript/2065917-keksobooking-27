@@ -11,9 +11,6 @@ export {toggleFormMode};
 
 // ВАЛИДАЦИЯ ФОРМЫ
 
-const TITLE_LENGTH = {minLength: 30, maxLength: 100};
-const PRICE_MAX_VALUE = 100000;
-
 const PRICE_MIN_VALUE = {
   bungalow: 0,
   flat: 1000,
@@ -47,54 +44,41 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'text-help'
 }, true);
 
-// валидация заголовка
-const title = adForm.querySelector('#title');
-
-const validateTitle = () => {
-  if (title.value.length !== 0 &&
-    title.value.length >= TITLE_LENGTH.minLength &&
-    title.value.length <= TITLE_LENGTH.maxLength) {
-    return true;
-  }
-  return false;
-};
-
-const getTitleErrorText = () => {
-  if (title.value.length === 0) {
-    return 'Обязательное поле';
-  } else if (title.value.length < TITLE_LENGTH.minLength || title.value.length > TITLE_LENGTH.maxLength) {
-    return `От ${TITLE_LENGTH.minLength} до ${TITLE_LENGTH.maxLength} символов`;
-  } else {
-    return 'Неизвестная ошибка!';
-  }
-};
-
 // валидация цены
 const housingType = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 
-const validatePrice = () => {
-  if (
-    price.value !== ''
-    && parseInt(price.value, 10) <= PRICE_MAX_VALUE
-    && parseInt(price.value, 10) >= PRICE_MIN_VALUE[housingType.value]
-  ) {
-    return true;
-  }
-  return false;
-};
+Pristine.setLocale('ru');
+Pristine.addMessages('ru', {
+  required: 'Обязательное поле',
+  minlength: 'От 30 до 100 символов',
+  maxlength: 'От 30 до 100 символов',
+  min: 'asdf',
+  max: 'qwrqt'
+});
 
-const getPriceErrorText = () => {
-  if (price.value === '') {
-    return 'Обязательное поле';
-  } else if (parseInt(price.value, 10) > PRICE_MAX_VALUE) {
-    return `Не более ${PRICE_MAX_VALUE} руб.`;
-  } else if (parseInt(price.value, 10) < PRICE_MIN_VALUE[housingType.value]) {
-    return `Не менее ${PRICE_MIN_VALUE[housingType.value]} руб.`;
-  } else {
-    return 'Неизвестная ошибка!';
-  }
-};
+// const validatePrice = () => {
+//   if (
+//     price.value !== ''
+//     && parseInt(price.value, 10) <= PRICE_MAX_VALUE
+//     && parseInt(price.value, 10) >= PRICE_MIN_VALUE[housingType.value]
+//   ) {
+//     return true;
+//   }
+//   return false;
+// };
+
+// const getPriceErrorText = () => {
+//   if (price.value === '') {
+//     return 'Обязательное поле';
+//   } else if (parseInt(price.value, 10) > PRICE_MAX_VALUE) {
+//     return `Не более ${PRICE_MAX_VALUE} руб.`;
+//   } else if (parseInt(price.value, 10) < PRICE_MIN_VALUE[housingType.value]) {
+//     return `Не менее ${PRICE_MIN_VALUE[housingType.value]} руб.`;
+//   } else {
+//     return 'Неизвестная ошибка!';
+//   }
+// };
 
 //синхронизация времени заезда-выезда
 const timeFieldset = adForm.querySelector('.ad-form__element--time');
@@ -126,20 +110,19 @@ const getRoomsErrorText = () => {
 const getGuestsErrorText = () => (guests.value === '0') ? 'Слишком мало комнат' : 'Слишком много гостей';
 
 // валидаация формы
-pristine.addValidator(title, validateTitle, getTitleErrorText);
-pristine.addValidator(price, validatePrice, getPriceErrorText);
+// pristine.addValidator(price, validatePrice, getPriceErrorText);
 pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
 
-[housingType, price].forEach((item) => {
-  item.addEventListener('change', () => {
-    if (price.value === '') {
-      price.placeholder = PRICE_MIN_VALUE[housingType.value];
-    } else {
-      pristine.validate(price);
-    }
-  });
-});
+// [housingType, price].forEach((item) => {
+//   item.addEventListener('change', () => {
+//     if (price.value === '') {
+//       price.placeholder = PRICE_MIN_VALUE[housingType.value];
+//     } else {
+//       pristine.validate(price);
+//     }
+//   });
+// });
 
 [rooms, guests].forEach((select) => {
   select.addEventListener('change', () => {
