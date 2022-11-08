@@ -10,7 +10,7 @@ const toggleFormMode = (formNode) => {
 export {toggleFormMode};
 
 // ВАЛИДАЦИЯ ФОРМЫ
-
+const PRICE_MAX_VALUE = 100000;
 const PRICE_MIN_VALUE = {
   bungalow: 0,
   flat: 1000,
@@ -44,41 +44,40 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'text-help'
 }, true);
 
-// валидация цены
-const housingType = adForm.querySelector('#type');
-const price = adForm.querySelector('#price');
-
 Pristine.setLocale('ru');
 Pristine.addMessages('ru', {
   required: 'Обязательное поле',
   minlength: 'От 30 до 100 символов',
   maxlength: 'От 30 до 100 символов',
-  min: 'asdf',
-  max: 'qwrqt'
 });
 
-// const validatePrice = () => {
-//   if (
-//     price.value !== ''
-//     && parseInt(price.value, 10) <= PRICE_MAX_VALUE
-//     && parseInt(price.value, 10) >= PRICE_MIN_VALUE[housingType.value]
-//   ) {
-//     return true;
-//   }
-//   return false;
-// };
+// валидация цены
+const housingType = adForm.querySelector('#type');
+const price = adForm.querySelector('#price');
+price.min = PRICE_MIN_VALUE[housingType.value];
 
-// const getPriceErrorText = () => {
-//   if (price.value === '') {
-//     return 'Обязательное поле';
-//   } else if (parseInt(price.value, 10) > PRICE_MAX_VALUE) {
-//     return `Не более ${PRICE_MAX_VALUE} руб.`;
-//   } else if (parseInt(price.value, 10) < PRICE_MIN_VALUE[housingType.value]) {
-//     return `Не менее ${PRICE_MIN_VALUE[housingType.value]} руб.`;
-//   } else {
-//     return 'Неизвестная ошибка!';
-//   }
-// };
+const validatePrice = () => {
+  if (
+    price.value !== ''
+    && parseInt(price.value, 10) <= PRICE_MAX_VALUE
+    && parseInt(price.value, 10) >= PRICE_MIN_VALUE[housingType.value]
+  ) {
+    return true;
+  }
+  return false;
+};
+
+const getPriceErrorText = () => {
+  if (price.value === '') {
+    return 'Обязательное поле';
+  } else if (parseInt(price.value, 10) > PRICE_MAX_VALUE) {
+    return `Не более ${PRICE_MAX_VALUE} руб.`;
+  } else if (parseInt(price.value, 10) < PRICE_MIN_VALUE[housingType.value]) {
+    return `Не менее ${PRICE_MIN_VALUE[housingType.value]} руб.`;
+  } else {
+    return 'Неизвестная ошибка!';
+  }
+};
 
 //синхронизация времени заезда-выезда
 const timeFieldset = adForm.querySelector('.ad-form__element--time');
@@ -110,19 +109,16 @@ const getRoomsErrorText = () => {
 const getGuestsErrorText = () => (guests.value === '0') ? 'Слишком мало комнат' : 'Слишком много гостей';
 
 // валидаация формы
-// pristine.addValidator(price, validatePrice, getPriceErrorText);
+pristine.addValidator(price, validatePrice, getPriceErrorText);
 pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
 
-// [housingType, price].forEach((item) => {
-//   item.addEventListener('change', () => {
-//     if (price.value === '') {
-//       price.placeholder = PRICE_MIN_VALUE[housingType.value];
-//     } else {
-//       pristine.validate(price);
-//     }
-//   });
-// });
+[housingType, price].forEach((item) => {
+  item.addEventListener('change', () => {
+    price.min = PRICE_MIN_VALUE[housingType.value];
+    pristine.validate(price);
+  });
+});
 
 [rooms, guests].forEach((select) => {
   select.addEventListener('change', () => {
