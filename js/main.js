@@ -26,3 +26,4 @@ forms.forEach((form) => toggleFormMode(form));
 // включение форм после загрузки карты
 // forms.forEach((form) => toggleFormMode(form));
 
+
