@@ -14,6 +14,14 @@ export {toggleFormMode};
 const TITLE_LENGTH = {minLength: 30, maxLength: 100};
 const PRICE_MAX_VALUE = 100000;
 
+const PRICE_MIN_VALUE = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
 // связи полей "Количество комнат" и "Количество мест"
 const ROOMS_TO_GUESTS = {
   '1': ['1'],
@@ -62,12 +70,15 @@ const getTitleErrorText = () => {
 };
 
 // валидация цены
+const housingType = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 
 const validatePrice = () => {
-  if (price.value !== '' &&
-  parseInt(price.value, 10) >= 0 &&
-  parseInt(price.value, 10) <= PRICE_MAX_VALUE) {
+  if (
+    price.value !== ''
+    && parseInt(price.value, 10) <= PRICE_MAX_VALUE
+    && parseInt(price.value, 10) >= PRICE_MIN_VALUE[housingType.value]
+  ) {
     return true;
   }
   return false;
@@ -78,10 +89,22 @@ const getPriceErrorText = () => {
     return 'Обязательное поле';
   } else if (parseInt(price.value, 10) > PRICE_MAX_VALUE) {
     return `Не более ${PRICE_MAX_VALUE} руб.`;
+  } else if (parseInt(price.value, 10) < PRICE_MIN_VALUE[housingType.value]) {
+    return `Не менее ${PRICE_MIN_VALUE[housingType.value]} руб.`;
   } else {
     return 'Неизвестная ошибка!';
   }
 };
+
+//синхронизация времени заезда-выезда
+const timeFieldset = adForm.querySelector('.ad-form__element--time');
+const timeInOut = timeFieldset.querySelectorAll('select');
+
+timeFieldset.addEventListener('change', (evt) => {
+  timeInOut.forEach((select) => {
+    select.value = evt.target.value;
+  });
+});
 
 // валидация количества комнат и количетсва гостей
 const rooms = adForm.querySelector('#room_number');
@@ -107,6 +130,16 @@ pristine.addValidator(title, validateTitle, getTitleErrorText);
 pristine.addValidator(price, validatePrice, getPriceErrorText);
 pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
+
+[housingType, price].forEach((item) => {
+  item.addEventListener('change', () => {
+    if (price.value === '') {
+      price.placeholder = PRICE_MIN_VALUE[housingType.value];
+    } else {
+      pristine.validate(price);
+    }
+  });
+});
 
 [rooms, guests].forEach((select) => {
   select.addEventListener('change', () => {
