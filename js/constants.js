@@ -134,7 +134,7 @@ const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/ke
 
 // диапазон координат
 const LAT_RANGE = {min: 35.65000, max: 35.70000, digits: 5};
-const LNG_RANGE = {min: 39.70000, max: 139.80000, digits: 5};
+const LNG_RANGE = {min: 139.70000, max: 139.80000, digits: 5};
 
 export {
   RANDOM_TITLES,

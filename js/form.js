@@ -51,6 +51,16 @@ Pristine.addMessages('ru', {
   maxlength: 'От 30 до 100 символов',
 });
 
+//заполнение адреса
+const address = adForm.querySelector('#address');
+address.setAttribute('readonly', 'readonly');
+
+const fillAddress = ({lat, lng}) => {
+  address.value = `${lat}, ${lng}`;
+};
+
+export {fillAddress};
+
 // валидация цены
 const housingType = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
