@@ -1,4 +1,5 @@
 import {getAdvertismentArray} from './data.js';
+import {getNewCard} from './card.js';
 import {
   toggleFormMode,
   fillAddress
@@ -14,6 +15,7 @@ forms.forEach((form) => toggleFormMode(form));
 // ПОДКЛЮЧЕНИЕ КАРТЫ
 const MAP_DEFAULT_CENTER = {lat: 35.67500, lng: 139.75000,};
 const MAP_DEFAULT_SCALE = 13;
+const MARKER_SIZE = 44;
 
 //карта
 const map = L.map('map-canvas')
@@ -32,14 +34,14 @@ L.tileLayer(
 // маркер
 const mainMarkerIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [44, 44],
-  iconAnchor: [22, 44],
+  iconSize: [MARKER_SIZE, MARKER_SIZE],
+  iconAnchor: [MARKER_SIZE / 2, MARKER_SIZE],
 });
 
 const markerIcon = L.icon({
   iconUrl: './img/pin.svg',
-  iconSize: [44, 44],
-  iconAnchor: [22, 44],
+  iconSize: [MARKER_SIZE, MARKER_SIZE],
+  iconAnchor: [MARKER_SIZE / 2, MARKER_SIZE],
 });
 
 const mainMarker = L.marker(
@@ -70,16 +72,23 @@ clearFormButton.addEventListener('click', () => {
 const ADVERTISMENT_QUANTITY = 10;
 const cardArray = getAdvertismentArray(ADVERTISMENT_QUANTITY);
 
-cardArray.forEach(({location}) => {
+cardArray.forEach((card) => {
+  const {lat, lng} = card.location;
   const marker = L.marker(
     {
-      lat: location.lat,
-      lng: location.lng,
+      lat: lat,
+      lng: lng,
     },
     {
       icon: markerIcon,
     }
   );
 
-  marker.addTo(map);
+  const popupOptions = {
+    offset: [0.5, -20],
+  };
+
+  marker
+    .addTo(map)
+    .bindPopup(getNewCard(card), popupOptions);
 });
