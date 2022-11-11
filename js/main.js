@@ -18,7 +18,7 @@ const MAP_DEFAULT_SCALE = 13;
 const MARKER_SIZE = 44;
 
 //карта
-const map = L.map('map-canvas')
+const map = L.map('map-canvas', {scrollWheelZoom: 'center'})
   .on('load', () => {
     forms.forEach((form) => toggleFormMode(form));
     slider.removeAttribute('disabled');
@@ -46,9 +46,8 @@ const markerIcon = L.icon({
 });
 
 const mainMarker = L.marker(
-  MAP_DEFAULT_CENTER,
+  map.getCenter(),
   {
-    draggable: true,
     icon: mainMarkerIcon,
     zIndexOffset: 1000,
   }
@@ -57,8 +56,9 @@ const mainMarker = L.marker(
 mainMarker.addTo(map);
 
 //заполнение адреса координатами маркера
-mainMarker.on('moveend', (evt) => {
-  fillAddress(evt.target.getLatLng());
+map.on('move', () => {
+  mainMarker.setLatLng(map.getCenter());
+  fillAddress(mainMarker.getLatLng());
 });
 
 // ДОБАВЛЕНИЕ МЕТОК НА КАРТУ
