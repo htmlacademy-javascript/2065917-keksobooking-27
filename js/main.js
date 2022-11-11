@@ -13,7 +13,8 @@ const forms = document.querySelectorAll('form');
 forms.forEach((form) => toggleFormMode(form));
 
 // ПОДКЛЮЧЕНИЕ КАРТЫ
-const MAP_DEFAULT_CENTER = {lat: 35.67500, lng: 139.75000,};
+// const MAP_DEFAULT_CENTER = {lat: 35.67500, lng: 139.75000,};
+const MAP_DEFAULT_CENTER = {lat: 35.68238, lng: 139.75225,};
 const MAP_DEFAULT_SCALE = 13;
 const MARKER_SIZE = 44;
 
@@ -25,7 +26,7 @@ const map = L.map('map-canvas')
   .setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
 
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  'https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}@2x.jpg?key=oJPXf6zaBAZnjnBlkWnf',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
@@ -49,6 +50,7 @@ const mainMarker = L.marker(
   {
     draggable: true,
     icon: mainMarkerIcon,
+    zIndexOffset: 1000,
   }
 );
 
@@ -72,6 +74,8 @@ clearFormButton.addEventListener('click', () => {
 const ADVERTISMENT_QUANTITY = 10;
 const cardArray = getAdvertismentArray(ADVERTISMENT_QUANTITY);
 
+const markerLayer = L.layerGroup().addTo(map);
+
 cardArray.forEach((card) => {
   const {lat, lng} = card.location;
   const marker = L.marker(
@@ -89,6 +93,6 @@ cardArray.forEach((card) => {
   };
 
   marker
-    .addTo(map)
+    .addTo(markerLayer)
     .bindPopup(getNewCard(card), popupOptions);
 });
