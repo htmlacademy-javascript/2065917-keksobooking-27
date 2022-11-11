@@ -90,6 +90,28 @@ const getPriceErrorText = () => {
   }
 };
 
+//слайдер
+const slider = adForm.querySelector('.ad-form__slider');
+
+noUiSlider.create(
+  slider,
+  {
+    range: {
+      min: 0,
+      '75%': [PRICE_MAX_VALUE * 0.125],
+      max: [PRICE_MAX_VALUE]
+    },
+    start: 0,
+    step: 1,
+    connect: 'lower',
+    animate: false,
+    format: {
+      to: (value) => value.toFixed(0),
+      from: (value) => parseFloat(value),
+    }
+  }
+);
+
 //синхронизация времени заезда-выезда
 const timeFieldset = adForm.querySelector('.ad-form__element--time');
 const timeInOut = timeFieldset.querySelectorAll('select');
@@ -124,11 +146,25 @@ pristine.addValidator(price, validatePrice, getPriceErrorText);
 pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
 
+slider.noUiSlider.on('change', () => {
+  price.value = slider.noUiSlider.get();
+  pristine.validate(price);
+});
+
+price.addEventListener('change', () => {
+  slider.noUiSlider.set(price.value);
+  if (price.value === '') {
+    slider.noUiSlider.set(0);
+  }
+});
+
 [housingType].forEach((item) => {
   item.addEventListener('change', () => {
     price.min = PRICE_MIN_VALUE[housingType.value];
     price.placeholder = PRICE_MIN_VALUE[housingType.value];
-    pristine.validate(price);
+    if (price.value !== '') {
+      pristine.validate(price);
+    }
   });
 });
 
