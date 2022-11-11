@@ -7,13 +7,12 @@ import {
 
 // ОТКЛЮЧЕНИЕ ФОРМ НА ВРЕМЯ ЗАГРУЗКИ КАРТЫ
 const forms = document.querySelectorAll('form');
-// =========================================================== Слайдер также должен быть заблокирован!!!
+const slider = document.querySelector('.ad-form__slider');
 
-// отключение форм по-умолчанию
+slider.setAttribute('disabled', true);
 forms.forEach((form) => toggleFormMode(form));
 
 // ПОДКЛЮЧЕНИЕ КАРТЫ
-// const MAP_DEFAULT_CENTER = {lat: 35.67500, lng: 139.75000,};
 const MAP_DEFAULT_CENTER = {lat: 35.68238, lng: 139.75225,};
 const MAP_DEFAULT_SCALE = 13;
 const MARKER_SIZE = 44;
@@ -22,6 +21,7 @@ const MARKER_SIZE = 44;
 const map = L.map('map-canvas')
   .on('load', () => {
     forms.forEach((form) => toggleFormMode(form));
+    slider.removeAttribute('disabled');
   })
   .setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
 
@@ -61,15 +61,6 @@ mainMarker.on('moveend', (evt) => {
   fillAddress(evt.target.getLatLng());
 });
 
-// сброс карты и маркера
-const clearFormButton = document.querySelector('.ad-form__reset');
-// ================================================================== добавить также сброс при успешной отправки формы !!!
-clearFormButton.addEventListener('click', () => {
-  mainMarker.setLatLng(MAP_DEFAULT_CENTER);
-  map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
-});
-
-
 // ДОБАВЛЕНИЕ МЕТОК НА КАРТУ
 const ADVERTISMENT_QUANTITY = 10;
 const cardArray = getAdvertismentArray(ADVERTISMENT_QUANTITY);
@@ -95,4 +86,13 @@ cardArray.forEach((card) => {
   marker
     .addTo(markerLayer)
     .bindPopup(getNewCard(card), popupOptions);
+});
+
+// сброс карты и маркера
+const clearFormButton = document.querySelector('.ad-form__reset');
+// ================================================================== добавить также сброс при успешной отправки формы !!!
+clearFormButton.addEventListener('click', () => {
+  mainMarker.setLatLng(MAP_DEFAULT_CENTER);
+  map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
+  slider.noUiSlider.set(0);
 });

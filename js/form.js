@@ -57,6 +57,7 @@ address.setAttribute('readonly', 'readonly');
 
 const fillAddress = ({lat, lng}) => {
   address.value = `${lat}, ${lng}`;
+  pristine.validate(address);
 };
 
 export {fillAddress};
@@ -90,7 +91,7 @@ const getPriceErrorText = () => {
   }
 };
 
-//слайдер
+//слайдер цены
 const slider = adForm.querySelector('.ad-form__slider');
 
 noUiSlider.create(
@@ -98,8 +99,9 @@ noUiSlider.create(
   {
     range: {
       min: 0,
-      '75%': [PRICE_MAX_VALUE * 0.125],
-      max: [PRICE_MAX_VALUE]
+      '12%': PRICE_MAX_VALUE * 0.01,
+      '75%': PRICE_MAX_VALUE * 0.125,
+      max: PRICE_MAX_VALUE,
     },
     start: 0,
     step: 1,
@@ -111,6 +113,17 @@ noUiSlider.create(
     }
   }
 );
+
+slider.noUiSlider.on('change', () => {
+  price.value = slider.noUiSlider.get();
+});
+
+price.addEventListener('change', () => {
+  slider.noUiSlider.set(price.value);
+  if (price.value === '') {
+    slider.noUiSlider.set(0);
+  }
+});
 
 //синхронизация времени заезда-выезда
 const timeFieldset = adForm.querySelector('.ad-form__element--time');
@@ -147,15 +160,7 @@ pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
 
 slider.noUiSlider.on('change', () => {
-  price.value = slider.noUiSlider.get();
   pristine.validate(price);
-});
-
-price.addEventListener('change', () => {
-  slider.noUiSlider.set(price.value);
-  if (price.value === '') {
-    slider.noUiSlider.set(0);
-  }
 });
 
 [housingType].forEach((item) => {
@@ -179,3 +184,4 @@ adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
   }
 });
+
