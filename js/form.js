@@ -51,6 +51,17 @@ Pristine.addMessages('ru', {
   maxlength: 'От 30 до 100 символов',
 });
 
+//заполнение адреса
+const address = adForm.querySelector('#address');
+address.setAttribute('readonly', 'readonly');
+
+const fillAddress = ({lat, lng}) => {
+  address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  pristine.validate(address);
+};
+
+export {fillAddress};
+
 // валидация цены
 const housingType = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
@@ -79,6 +90,40 @@ const getPriceErrorText = () => {
     return 'Неизвестная ошибка!';
   }
 };
+
+//слайдер цены
+const slider = adForm.querySelector('.ad-form__slider');
+
+noUiSlider.create(
+  slider,
+  {
+    range: {
+      min: 0,
+      '12%': PRICE_MAX_VALUE * 0.01,
+      '75%': PRICE_MAX_VALUE * 0.125,
+      max: PRICE_MAX_VALUE,
+    },
+    start: 0,
+    step: 1,
+    connect: 'lower',
+    animate: false,
+    format: {
+      to: (value) => value.toFixed(0),
+      from: (value) => parseFloat(value),
+    }
+  }
+);
+
+slider.noUiSlider.on('change', () => {
+  price.value = slider.noUiSlider.get();
+});
+
+price.addEventListener('change', () => {
+  slider.noUiSlider.set(price.value);
+  if (price.value === '') {
+    slider.noUiSlider.set(0);
+  }
+});
 
 //синхронизация времени заезда-выезда
 const timeFieldset = adForm.querySelector('.ad-form__element--time');
@@ -114,11 +159,17 @@ pristine.addValidator(price, validatePrice, getPriceErrorText);
 pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
 
+slider.noUiSlider.on('change', () => {
+  pristine.validate(price);
+});
+
 [housingType].forEach((item) => {
   item.addEventListener('change', () => {
     price.min = PRICE_MIN_VALUE[housingType.value];
     price.placeholder = PRICE_MIN_VALUE[housingType.value];
-    pristine.validate(price);
+    if (price.value !== '') {
+      pristine.validate(price);
+    }
   });
 });
 
@@ -133,3 +184,4 @@ adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
   }
 });
+
