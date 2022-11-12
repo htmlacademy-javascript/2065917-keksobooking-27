@@ -56,7 +56,7 @@ const address = adForm.querySelector('#address');
 address.setAttribute('readonly', 'readonly');
 
 const fillAddress = ({lat, lng}) => {
-  address.value = `${lat}, ${lng}`;
+  address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
   pristine.validate(address);
 };
 

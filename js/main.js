@@ -54,6 +54,9 @@ const mainMarker = L.marker(
   }
 );
 
+mainMarker.addTo(map);
+fillAddress(mainMarker.getLatLng());
+
 //заполнение адреса координатами маркера
 map.on('click', (evt) => {
   mainMarker.setLatLng(evt.latlng);
