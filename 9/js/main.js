@@ -48,16 +48,20 @@ const markerIcon = L.icon({
 const mainMarker = L.marker(
   map.getCenter(),
   {
+    draggable: true,
     icon: mainMarkerIcon,
     zIndexOffset: 1000,
   }
 );
 
-mainMarker.addTo(map);
-
 //заполнение адреса координатами маркера
-map.on('move', () => {
-  mainMarker.setLatLng(map.getCenter());
+map.on('click', (evt) => {
+  mainMarker.setLatLng(evt.latlng);
+  mainMarker.addTo(map);
+  fillAddress(mainMarker.getLatLng());
+});
+
+mainMarker.on('moveend', () => {
   fillAddress(mainMarker.getLatLng());
 });
 
@@ -92,7 +96,7 @@ cardArray.forEach((card) => {
 const clearFormButton = document.querySelector('.ad-form__reset');
 // ================================================================== добавить также сброс при успешной отправки формы !!!
 clearFormButton.addEventListener('click', () => {
-  mainMarker.setLatLng(MAP_DEFAULT_CENTER);
   map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
   slider.noUiSlider.set(0);
+  mainMarker.remove();
 });
