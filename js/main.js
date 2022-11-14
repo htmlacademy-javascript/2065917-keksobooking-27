@@ -1,5 +1,10 @@
-import {getAdvertismentArray} from './data.js';
+import {
+  getCards,
+  // sendNotice,
+} from './data-load.js';
+
 import {getNewCard} from './card.js';
+
 import {
   toggleFormMode,
   fillAddress
@@ -15,10 +20,11 @@ forms.forEach((form) => toggleFormMode(form));
 // ПОДКЛЮЧЕНИЕ КАРТЫ
 const MAP_DEFAULT_CENTER = {lat: 35.68238, lng: 139.75225,};
 const MAP_DEFAULT_SCALE = 13;
-const MARKER_SIZE = 44;
+const MARKER_SIZE = 40;
+const MAIN_MARKER_SIZE = 52;
 
 //карта
-const map = L.map('map-canvas', {scrollWheelZoom: 'center'})
+const map = L.map('map-canvas')
   .on('load', () => {
     forms.forEach((form) => toggleFormMode(form));
     slider.removeAttribute('disabled');
@@ -35,8 +41,8 @@ L.tileLayer(
 // маркер
 const mainMarkerIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [MARKER_SIZE, MARKER_SIZE],
-  iconAnchor: [MARKER_SIZE / 2, MARKER_SIZE],
+  iconSize: [MAIN_MARKER_SIZE, MAIN_MARKER_SIZE],
+  iconAnchor: [MAIN_MARKER_SIZE / 2, MAIN_MARKER_SIZE],
 });
 
 const markerIcon = L.icon({
@@ -46,7 +52,7 @@ const markerIcon = L.icon({
 });
 
 const mainMarker = L.marker(
-  map.getCenter(),
+  MAP_DEFAULT_CENTER,
   {
     draggable: true,
     icon: mainMarkerIcon,
@@ -60,7 +66,6 @@ fillAddress(mainMarker.getLatLng());
 //заполнение адреса координатами маркера
 map.on('click', (evt) => {
   mainMarker.setLatLng(evt.latlng);
-  mainMarker.addTo(map);
   fillAddress(mainMarker.getLatLng());
 });
 
@@ -69,12 +74,10 @@ mainMarker.on('moveend', () => {
 });
 
 // ДОБАВЛЕНИЕ МЕТОК НА КАРТУ
-const ADVERTISMENT_QUANTITY = 10;
-const cardArray = getAdvertismentArray(ADVERTISMENT_QUANTITY);
 
 const markerLayer = L.layerGroup().addTo(map);
 
-cardArray.forEach((card) => {
+const renderMarker = (card) => {
   const {lat, lng} = card.location;
   const marker = L.marker(
     {
@@ -93,6 +96,11 @@ cardArray.forEach((card) => {
   marker
     .addTo(markerLayer)
     .bindPopup(getNewCard(card), popupOptions);
+};
+
+// загрузка соседних объявлений с сервера
+getCards((cards) => {
+  cards.forEach(renderMarker);
 });
 
 // сброс карты и маркера
@@ -101,5 +109,5 @@ const clearFormButton = document.querySelector('.ad-form__reset');
 clearFormButton.addEventListener('click', () => {
   map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
   slider.noUiSlider.set(0);
-  mainMarker.remove();
+  mainMarker.setLatLng(MAP_DEFAULT_CENTER);
 });
