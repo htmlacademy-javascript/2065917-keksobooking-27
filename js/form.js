@@ -1,3 +1,5 @@
+import {sendNotice} from './data-load.js';
+
 // ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ СОСТОЯНИЯ ФОРМ
 
 const toggleFormMode = (formNode) => {
@@ -179,10 +181,25 @@ slider.noUiSlider.on('change', () => {
   });
 });
 
-adForm.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
-});
+const resetForm = () => {
+  adForm.reset();
+  slider.noUiSlider.reset();
+  pristine.reset();
+};
 
-export {pristine};
+const setNoticeFormSubmit = (...resets) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    if (pristine.validate()) {
+      sendNotice(
+        () => {
+          resets.forEach((reset) => reset());
+        },
+        new FormData(adForm));
+    }
+  });
+};
+
+export {setNoticeFormSubmit, resetForm};
+

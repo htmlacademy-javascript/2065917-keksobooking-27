@@ -3,7 +3,6 @@ import {getNewCard} from './card.js';
 import {
   toggleFormMode,
   fillAddress,
-  pristine,
 } from './form.js';
 
 // ОТКЛЮЧЕНИЕ ФОРМ НА ВРЕМЯ ЗАГРУЗКИ КАРТЫ
@@ -96,14 +95,11 @@ const renderMarker = (card) => {
 };
 
 // сброс карты и маркера
-const clearFormButton = document.querySelector('.ad-form__reset');
-// ================================================================== добавить также сброс при успешной отправки формы !!!
-clearFormButton.addEventListener('click', () => {
+const resetMap = () => {
   map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
   map.closePopup();
-  slider.noUiSlider.reset();
-  pristine.reset();
   mainMarker.setLatLng(MAP_DEFAULT_CENTER);
-});
+};
 
-export {renderMarker};
+export {renderMarker, resetMap};
+
