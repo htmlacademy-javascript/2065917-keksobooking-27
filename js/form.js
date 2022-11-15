@@ -185,3 +185,4 @@ adForm.addEventListener('submit', (evt) => {
   }
 });
 
+export {pristine};
