@@ -156,7 +156,7 @@ const getRoomsErrorText = () => {
 
 const getGuestsErrorText = () => (guests.value === '0') ? 'Слишком мало комнат' : 'Слишком много гостей';
 
-// валидаация формы
+// валидация формы
 pristine.addValidator(price, validatePrice, getPriceErrorText);
 pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
@@ -187,14 +187,37 @@ const resetForm = () => {
   pristine.reset();
 };
 
+const submitButton = adForm.querySelector('.ad-form__submit');
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.style.opacity = '0.6';
+  submitButton.style.cursor = 'not-allowed';
+  submitButton.style.pointerEvents = 'none';
+  submitButton.textContent = 'Загрузка...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.style.opacity = '1';
+  submitButton.style.cursor = 'pointer';
+  submitButton.style.pointerEvents = 'auto';
+  submitButton.textContent = 'Опубликовать';
+};
+
 const setNoticeFormSubmit = (...resets) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     if (pristine.validate()) {
+      blockSubmitButton();
       sendNotice(
         () => {
           resets.forEach((reset) => reset());
+          unblockSubmitButton();
+        },
+        () => {
+          unblockSubmitButton();
         },
         new FormData(adForm));
     }

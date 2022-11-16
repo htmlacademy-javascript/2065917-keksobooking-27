@@ -16,18 +16,22 @@ const getCards = (onSuccess) => {
     });
 };
 
-const sendNotice = (onSuccess, body) => {
+const sendNotice = (onSuccess, onFail, body) => {
   fetch(SERVER,
     {
       method: 'POST',
       body: body,
     }
   )
-    .then(() => {
-      onSuccess();
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail();
+      }
     })
-    .catch((err) => {
-      showErrorMessage(err.message);
+    .catch(() => {
+      onFail();
     });
 };
 

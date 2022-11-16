@@ -1,9 +1,6 @@
 import {renderMarker, resetMap} from './map.js';
 import {setNoticeFormSubmit, resetForm} from './form.js';
-import {
-  getCards,
-  // sendNotice,
-} from './data-load.js';
+import {getCards} from './data-load.js';
 
 // ЗАГРУЗКА СОСЕДНИХ ОБЪЯВЛЕНИЙ С СЕРВЕРА
 getCards((cards) => {
