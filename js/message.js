@@ -1,3 +1,4 @@
+// сообщение об ошибке загрузки данных с сервера
 const showErrorMessage = (message) => {
   const map = document.querySelector('#map-canvas');
 
@@ -26,13 +27,20 @@ const showErrorMessage = (message) => {
   }, 3000);
 };
 
+// сообщение об отправке формы
 const showModalMessage = (modalType) => {
+
   const modalTemplate = document.querySelector(`#${modalType}`).content.querySelector(`.${modalType}`);
   const modal = modalTemplate.cloneNode(true);
+  const modalButton = modal.querySelector('.error__button');
 
-  const onDocumentClick = () => {
+  const onClick = () => {
     hideModal();
   };
+
+  if (modalButton !== null) {
+    modalButton.addEventListener('click', onClick);
+  }
 
   const onModalEscKeydown = (evt) => {
     if (evt.key === 'Escape') {
@@ -42,13 +50,13 @@ const showModalMessage = (modalType) => {
 
   const showModal = () => {
     document.body.appendChild(modal);
-    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('click', onClick);
     document.addEventListener('keydown', onModalEscKeydown);
   };
 
   function hideModal() {
     document.body.removeChild(modal);
-    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('click', onClick);
     document.removeEventListener('keydown', onModalEscKeydown);
   }
 

@@ -9,8 +9,9 @@ const getCards = (onSuccess, onFail) => {
       throw new Error('Ошибка загрузки данных с сервера');
     })
     .then((cards) => onSuccess(cards))
-    .catch((err) => {
-      onFail(err);
+    .catch((er) => {
+      er.message = 'Ошибка загрузки данных с сервера';
+      onFail(er);
     });
 };
 
