@@ -1,4 +1,5 @@
 import {sendNotice} from './data-load.js';
+import {showModalMessage} from './message.js';
 
 // ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ СОСТОЯНИЯ ФОРМ
 
@@ -215,8 +216,10 @@ const setNoticeFormSubmit = (...resets) => {
         () => {
           resets.forEach((reset) => reset());
           unblockSubmitButton();
+          showModalMessage('success');
         },
         () => {
+          showModalMessage('error');
           unblockSubmitButton();
         },
         new FormData(adForm));

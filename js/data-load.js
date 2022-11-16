@@ -1,8 +1,6 @@
-import {showErrorMessage} from './error-message.js';
-
 const SERVER = 'https://27.javascript.pages.academy/keksobooking';
 
-const getCards = (onSuccess) => {
+const getCards = (onSuccess, onFail) => {
   fetch(`${SERVER}/data`)
     .then((response) => {
       if (response.ok) {
@@ -12,7 +10,7 @@ const getCards = (onSuccess) => {
     })
     .then((cards) => onSuccess(cards))
     .catch((err) => {
-      showErrorMessage(err.message);
+      onFail(err);
     });
 };
 

@@ -26,4 +26,33 @@ const showErrorMessage = (message) => {
   }, 3000);
 };
 
-export {showErrorMessage};
+const showModalMessage = (modalType) => {
+  const modalTemplate = document.querySelector(`#${modalType}`).content.querySelector(`.${modalType}`);
+  const modal = modalTemplate.cloneNode(true);
+
+  const onDocumentClick = () => {
+    hideModal();
+  };
+
+  const onModalEscKeydown = (evt) => {
+    if (evt.key === 'Escape') {
+      hideModal();
+    }
+  };
+
+  const showModal = () => {
+    document.body.appendChild(modal);
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onModalEscKeydown);
+  };
+
+  function hideModal() {
+    document.body.removeChild(modal);
+    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onModalEscKeydown);
+  }
+
+  showModal();
+};
+
+export {showErrorMessage, showModalMessage};

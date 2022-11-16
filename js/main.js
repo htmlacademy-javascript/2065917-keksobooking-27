@@ -1,11 +1,14 @@
 import {renderMarker, resetMap} from './map.js';
 import {setNoticeFormSubmit, resetForm} from './form.js';
 import {getCards} from './data-load.js';
+import {showErrorMessage} from './message.js';
+import './message.js';
 
 // ЗАГРУЗКА СОСЕДНИХ ОБЪЯВЛЕНИЙ С СЕРВЕРА
-getCards((cards) => {
-  cards.forEach(renderMarker);
-});
+getCards(
+  (cards) => cards.forEach(renderMarker),
+  (er) => showErrorMessage(er.message)
+);
 
 // ОТПРАВКА ФОРМЫ ОБЪЯВЛЕНИЯ
 setNoticeFormSubmit(resetMap, resetForm);
