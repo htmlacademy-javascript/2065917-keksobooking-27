@@ -70,7 +70,6 @@ mainMarker.on('moveend', () => {
 });
 
 // ДОБАВЛЕНИЕ МЕТОК НА КАРТУ
-
 const markerLayer = L.layerGroup().addTo(map);
 
 const renderMarker = (card) => {
@@ -95,10 +94,13 @@ const renderMarker = (card) => {
 };
 
 // сброс карты и маркера
-const resetMap = () => {
-  map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
+const resetMap = (options = '') => {
+  markerLayer.clearLayers();
   map.closePopup();
-  mainMarker.setLatLng(MAP_DEFAULT_CENTER);
+  if (options.type === 'full') {
+    map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
+    mainMarker.setLatLng(MAP_DEFAULT_CENTER);
+  }
 };
 
 export {renderMarker, resetMap};

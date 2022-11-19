@@ -182,7 +182,7 @@ slider.noUiSlider.on('change', () => {
   });
 });
 
-const resetForm = () => {
+const resetAdForm = () => {
   adForm.reset();
   slider.noUiSlider.reset();
   pristine.reset();
@@ -227,5 +227,5 @@ const setNoticeFormSubmit = (...resets) => {
   });
 };
 
-export {setNoticeFormSubmit, resetForm};
+export {setNoticeFormSubmit, resetAdForm};
 
