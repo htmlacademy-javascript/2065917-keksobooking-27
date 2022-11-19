@@ -5,14 +5,14 @@ const PriceRange = {
   MIDDLE: 50000,
 };
 
-const formFilter = document.querySelector('.map__filters');
+const filterForm = document.querySelector('.map__filters');
 
 // ФИЛЬТРАЦИЯ ПОХОЖИХ ОБЪЯВЛЕНИЙ
 const filterCards = (cards, cb = '') => {
-  const typeFilter = formFilter.querySelector('#housing-type');
-  const priceFilter = formFilter.querySelector('#housing-price');
-  const roomsFilter = formFilter.querySelector('#housing-rooms');
-  const guestsFilter = formFilter.querySelector('#housing-guests');
+  const typeFilter = filterForm.querySelector('#housing-type');
+  const priceFilter = filterForm.querySelector('#housing-price');
+  const roomsFilter = filterForm.querySelector('#housing-rooms');
+  const guestsFilter = filterForm.querySelector('#housing-guests');
 
   const compareType = (offer) => {
     if (typeFilter.value === 'any') {
@@ -62,11 +62,11 @@ const filterCards = (cards, cb = '') => {
 };
 
 const setFilters = (cb) => {
-  formFilter.addEventListener('change', () => cb());
+  filterForm.addEventListener('change', () => cb());
 };
 
 const resetFilterForm = () => {
-  formFilter.reset();
+  filterForm.reset();
 };
 
 export {filterCards, setFilters, resetFilterForm};

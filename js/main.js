@@ -1,12 +1,23 @@
 import {renderMarker, resetMap} from './map.js';
-import {setNoticeFormSubmit, resetAdForm} from './form.js';
+import {toggleFormMode, setNoticeFormSubmit, resetAdForm} from './form.js';
 import {getCards} from './data-load.js';
 import {showErrorMessage} from './message.js';
 import {filterCards, setFilters, resetFilterForm} from './filter.js';
 
-// СБРОС КАРТЫ И ФОРМЫ
+// блокировка форм по-умолчанию
+const adForm = document.querySelector('.ad-form');
+const slider = document.querySelector('.ad-form__slider');
+const filterForm = document.querySelector('.map__filters');
+
+[adForm, filterForm].forEach((form) => toggleFormMode(form));
+slider.setAttribute('disabled', 'true');
+
 const resetButton = document.querySelector('.ad-form__reset');
 
+// функция фильтрации и отрисовки объявлений
+const getCardsArray = (cards, cb = '') => filterCards(cards, cb).forEach(renderMarker);
+
+// СБРОС КАРТЫ И ФОРМЫ
 const setMapDefault = (cb) => {
   resetButton.addEventListener('click', () => {
     resetAdForm();
@@ -16,12 +27,11 @@ const setMapDefault = (cb) => {
   });
 };
 
-// функция фильтрации и отрисовки объявлений
-const getCardsArray = (cards, cb = '') => filterCards(cards, cb).forEach(renderMarker);
 
 // ЗАГРУЗКА СОСЕДНИХ ОБЪЯВЛЕНИЙ С СЕРВЕРА
 getCards(
   (cards) => {
+    toggleFormMode(filterForm);
     getCardsArray(cards);
     setFilters(() => {
       resetMap();
@@ -32,4 +42,3 @@ getCards(
   },
   (er) => showErrorMessage(er.message)
 );
-

@@ -5,12 +5,8 @@ import {
   fillAddress,
 } from './form.js';
 
-// ОТКЛЮЧЕНИЕ ФОРМ НА ВРЕМЯ ЗАГРУЗКИ КАРТЫ
-const forms = document.querySelectorAll('form');
+const adForm = document.querySelector('.ad-form');
 const slider = document.querySelector('.ad-form__slider');
-
-forms.forEach((form) => toggleFormMode(form));
-slider.setAttribute('disabled', true);
 
 // ПОДКЛЮЧЕНИЕ КАРТЫ
 const MAP_DEFAULT_CENTER = {lat: 35.68238, lng: 139.75225,};
@@ -18,12 +14,14 @@ const MAP_DEFAULT_SCALE = 13;
 const MARKER_SIZE = 40;
 const MAIN_MARKER_SIZE = 52;
 
-//карта
+//создание карты и включение формы подачи лбъявления при загрузке
 const map = L.map('map-canvas');
 
 map.on('load', () => {
-  forms.forEach((form) => toggleFormMode(form));
-  slider.removeAttribute('disabled');
+  setTimeout(() => {
+    toggleFormMode(adForm);
+    slider.removeAttribute('disabled');
+  }, 0);
 })
   .setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
 
