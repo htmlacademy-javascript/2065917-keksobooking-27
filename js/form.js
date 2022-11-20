@@ -1,3 +1,6 @@
+import {sendNotice} from './data-load.js';
+import {showModalMessage} from './message.js';
+
 // ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ СОСТОЯНИЯ ФОРМ
 
 const toggleFormMode = (formNode) => {
@@ -154,7 +157,7 @@ const getRoomsErrorText = () => {
 
 const getGuestsErrorText = () => (guests.value === '0') ? 'Слишком мало комнат' : 'Слишком много гостей';
 
-// валидаация формы
+// валидация формы
 pristine.addValidator(price, validatePrice, getPriceErrorText);
 pristine.addValidator(rooms, validGuests, getRoomsErrorText);
 pristine.addValidator(guests, validRooms, getGuestsErrorText);
@@ -179,9 +182,50 @@ slider.noUiSlider.on('change', () => {
   });
 });
 
-adForm.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
+const resetForm = () => {
+  adForm.reset();
+  slider.noUiSlider.reset();
+  pristine.reset();
+};
+
+const submitButton = adForm.querySelector('.ad-form__submit');
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.style.opacity = '0.6';
+  submitButton.style.cursor = 'not-allowed';
+  submitButton.style.pointerEvents = 'none';
+  submitButton.textContent = 'Загрузка...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.style.opacity = '1';
+  submitButton.style.cursor = 'pointer';
+  submitButton.style.pointerEvents = 'auto';
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setNoticeFormSubmit = (...resets) => {
+  adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
+
+    if (pristine.validate()) {
+      blockSubmitButton();
+      sendNotice(
+        () => {
+          resets.forEach((reset) => reset());
+          unblockSubmitButton();
+          showModalMessage('success');
+        },
+        () => {
+          showModalMessage('error');
+          unblockSubmitButton();
+        },
+        new FormData(adForm));
+    }
+  });
+};
+
+export {setNoticeFormSubmit, resetForm};
 
