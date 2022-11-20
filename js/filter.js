@@ -1,9 +1,4 @@
-// НАСТРОЙКИ ФИЛЬТРАЦИИ
-const CARDS_MAX_QUANTITY = 10;
-const PriceRange = {
-  LOW: 10000,
-  MIDDLE: 50000,
-};
+import {CARDS_MAX_QUANTITY, PriceRange} from './constants.js';
 
 const filterForm = document.querySelector('.map__filters');
 

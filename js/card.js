@@ -1,11 +1,4 @@
-// словарь для отрисовки карточек
-const HOUSING_TYPES_DICTIONARY = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель',
-};
+import {HOUSING_TYPES_DICTIONARY} from './constants.js';
 
 // подготовка шаблона карточки
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup'); // шаблон объявления

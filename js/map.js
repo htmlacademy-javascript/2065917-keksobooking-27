@@ -1,3 +1,4 @@
+import {MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE, MARKER_SIZE, MAIN_MARKER_SIZE} from './constants.js';
 import {getNewCard} from './card.js';
 
 import {
@@ -7,12 +8,6 @@ import {
 
 const adForm = document.querySelector('.ad-form');
 const slider = document.querySelector('.ad-form__slider');
-
-// ПОДКЛЮЧЕНИЕ КАРТЫ
-const MAP_DEFAULT_CENTER = {lat: 35.68238, lng: 139.75225,};
-const MAP_DEFAULT_SCALE = 13;
-const MARKER_SIZE = 40;
-const MAIN_MARKER_SIZE = 52;
 
 //создание карты и включение формы подачи лбъявления при загрузке
 const map = L.map('map-canvas');
