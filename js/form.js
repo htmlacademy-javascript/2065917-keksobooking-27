@@ -1,5 +1,11 @@
 import {sendNotice} from './data-load.js';
 import {showModalMessage} from './message.js';
+import {
+  PRICE_MAX_VALUE,
+  PRICE_MIN_VALUE,
+  ROOMS_TO_GUESTS,
+  GUESTS_TO_ROOMS,
+} from './constants.js';
 
 // ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ СОСТОЯНИЯ ФОРМ
 
@@ -10,33 +16,7 @@ const toggleFormMode = (formNode) => {
   });
 };
 
-export {toggleFormMode};
-
-// ВАЛИДАЦИЯ ФОРМЫ
-const PRICE_MAX_VALUE = 100000;
-const PRICE_MIN_VALUE = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000,
-};
-
-// связи полей "Количество комнат" и "Количество мест"
-const ROOMS_TO_GUESTS = {
-  '1': ['1'],
-  '2': ['1', '2'],
-  '3': ['1', '2', '3'],
-  '100': ['0'],
-};
-
-const GUESTS_TO_ROOMS = {
-  '0': ['100'],
-  '1': ['1', '2', '3'],
-  '2': ['2', '3'],
-  '3': ['3'],
-};
-
+// валидация формы
 const adForm = document.querySelector('.ad-form');
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -62,8 +42,6 @@ const fillAddress = ({lat, lng}) => {
   address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
   pristine.validate(address);
 };
-
-export {fillAddress};
 
 // валидация цены
 const housingType = adForm.querySelector('#type');
@@ -182,7 +160,7 @@ slider.noUiSlider.on('change', () => {
   });
 });
 
-const resetForm = () => {
+const resetAdForm = () => {
   adForm.reset();
   slider.noUiSlider.reset();
   pristine.reset();
@@ -227,5 +205,5 @@ const setNoticeFormSubmit = (...resets) => {
   });
 };
 
-export {setNoticeFormSubmit, resetForm};
+export {toggleFormMode, fillAddress, setNoticeFormSubmit, resetAdForm};
 

@@ -1,3 +1,4 @@
+import {MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE, MARKER_SIZE, MAIN_MARKER_SIZE} from './constants.js';
 import {getNewCard} from './card.js';
 
 import {
@@ -5,25 +6,17 @@ import {
   fillAddress,
 } from './form.js';
 
-// ОТКЛЮЧЕНИЕ ФОРМ НА ВРЕМЯ ЗАГРУЗКИ КАРТЫ
-const forms = document.querySelectorAll('form');
+const adForm = document.querySelector('.ad-form');
 const slider = document.querySelector('.ad-form__slider');
 
-forms.forEach((form) => toggleFormMode(form));
-slider.setAttribute('disabled', true);
-
-// ПОДКЛЮЧЕНИЕ КАРТЫ
-const MAP_DEFAULT_CENTER = {lat: 35.68238, lng: 139.75225,};
-const MAP_DEFAULT_SCALE = 13;
-const MARKER_SIZE = 40;
-const MAIN_MARKER_SIZE = 52;
-
-//карта
-const map = L.map('map-canvas');
+//создание карты и включение формы подачи лбъявления при загрузке
+const map = L.map('map-canvas', {fadeAnimation: false});
 
 map.on('load', () => {
-  forms.forEach((form) => toggleFormMode(form));
-  slider.removeAttribute('disabled');
+  setTimeout(() => {
+    toggleFormMode(adForm);
+    slider.removeAttribute('disabled');
+  }, 0);
 })
   .setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
 
@@ -70,7 +63,6 @@ mainMarker.on('moveend', () => {
 });
 
 // ДОБАВЛЕНИЕ МЕТОК НА КАРТУ
-
 const markerLayer = L.layerGroup().addTo(map);
 
 const renderMarker = (card) => {
@@ -95,10 +87,13 @@ const renderMarker = (card) => {
 };
 
 // сброс карты и маркера
-const resetMap = () => {
-  map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
+const resetMap = (options = '') => {
+  markerLayer.clearLayers();
   map.closePopup();
-  mainMarker.setLatLng(MAP_DEFAULT_CENTER);
+  if (options.type === 'full') {
+    map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
+    mainMarker.setLatLng(MAP_DEFAULT_CENTER);
+  }
 };
 
 export {renderMarker, resetMap};
