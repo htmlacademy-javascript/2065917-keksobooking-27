@@ -10,7 +10,7 @@ const adForm = document.querySelector('.ad-form');
 const slider = document.querySelector('.ad-form__slider');
 
 //создание карты и включение формы подачи лбъявления при загрузке
-const map = L.map('map-canvas');
+const map = L.map('map-canvas', {fadeAnimation: false});
 
 map.on('load', () => {
   setTimeout(() => {

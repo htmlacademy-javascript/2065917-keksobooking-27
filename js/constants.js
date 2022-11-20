@@ -46,6 +46,9 @@ const PriceRange = {
   MIDDLE: 50000,
 };
 
+// интервал рендеринга меток на карте
+const RENEDER_DELAY = 500;
+
 export {
   MAP_DEFAULT_CENTER,
   MAP_DEFAULT_SCALE,
@@ -58,4 +61,5 @@ export {
   HOUSING_TYPES_DICTIONARY,
   CARDS_MAX_QUANTITY,
   PriceRange,
+  RENEDER_DELAY,
 };

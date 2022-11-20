@@ -43,8 +43,6 @@ const fillAddress = ({lat, lng}) => {
   pristine.validate(address);
 };
 
-export {fillAddress};
-
 // валидация цены
 const housingType = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
@@ -207,5 +205,5 @@ const setNoticeFormSubmit = (...resets) => {
   });
 };
 
-export {toggleFormMode, setNoticeFormSubmit, resetAdForm};
+export {toggleFormMode, fillAddress, setNoticeFormSubmit, resetAdForm};
 

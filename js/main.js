@@ -3,6 +3,8 @@ import {toggleFormMode, setNoticeFormSubmit, resetAdForm} from './form.js';
 import {getCards} from './data-load.js';
 import {showErrorMessage} from './message.js';
 import {filterCards, setFilters, resetFilterForm} from './filter.js';
+import {RENEDER_DELAY} from './constants.js';
+import {debounce} from './utils.js';
 
 // блокировка форм по-умолчанию
 const adForm = document.querySelector('.ad-form');
@@ -27,16 +29,17 @@ const setMapDefault = (cb) => {
   });
 };
 
-
 // ЗАГРУЗКА СОСЕДНИХ ОБЪЯВЛЕНИЙ С СЕРВЕРА
 getCards(
   (cards) => {
     toggleFormMode(filterForm);
     getCardsArray(cards);
-    setFilters(() => {
-      resetMap();
-      getCardsArray(cards, () => showErrorMessage('Нет объявлений, удовлетворяющих условию поиска'));
-    });
+    setFilters(debounce(
+      () => {
+        resetMap();
+        getCardsArray(cards, () => showErrorMessage('Нет объявлений, удовлетворяющих условию поиска'));
+      }, RENEDER_DELAY)
+    );
     setMapDefault(() => getCardsArray(cards));
     setNoticeFormSubmit(() => resetMap({type: 'full'}), resetAdForm, resetFilterForm, () => getCardsArray(cards));
   },
