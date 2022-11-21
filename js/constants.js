@@ -49,6 +49,10 @@ const PriceRange = {
 // интервал рендеринга меток на карте
 const RENEDER_DELAY = 500;
 
+// валидные типы изображений для загрузки
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+
 export {
   MAP_DEFAULT_CENTER,
   MAP_DEFAULT_SCALE,
@@ -62,4 +66,5 @@ export {
   CARDS_MAX_QUANTITY,
   PriceRange,
   RENEDER_DELAY,
+  FILE_TYPES,
 };
