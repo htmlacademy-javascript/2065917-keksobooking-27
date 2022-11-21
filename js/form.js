@@ -6,6 +6,7 @@ import {
   ROOMS_TO_GUESTS,
   GUESTS_TO_ROOMS,
 } from './constants.js';
+import {previewUploadedImage} from './images.js';
 
 // ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ СОСТОЯНИЯ ФОРМ
 
@@ -16,8 +17,35 @@ const toggleFormMode = (formNode) => {
   });
 };
 
-// валидация формы
 const adForm = document.querySelector('.ad-form');
+
+// загрузка предпросмотра изображений
+const avatarChooser = adForm.querySelector('#avatar');
+const avatarPreview = adForm.querySelector('.ad-form-header__preview img');
+avatarPreview.style.objectFit = 'cover';
+avatarPreview.style.border = '1px solid transparent';
+avatarPreview.style.borderRadius = '5px';
+
+avatarChooser.addEventListener('change', () => {
+  previewUploadedImage(avatarChooser, avatarPreview);
+});
+
+const photoChooser = adForm.querySelector('#images');
+const photoPreviewContainer = adForm.querySelector('.ad-form__photo');
+const photoPreview = document.createElement('img');
+photoPreview.style.objectFit = 'cover';
+photoPreview.style.width = '100%';
+photoPreview.style.height = '100%';
+photoPreview.style.border = '1px solid transparent';
+photoPreview.style.borderRadius = '5px';
+
+photoPreviewContainer.appendChild(photoPreview);
+
+photoChooser.addEventListener('change', () => {
+  previewUploadedImage(photoChooser, photoPreview);
+});
+
+// валидация формы
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -161,6 +189,8 @@ slider.noUiSlider.on('change', () => {
 });
 
 const resetAdForm = () => {
+  avatarPreview.src = './img/muffin-grey.svg';
+  photoPreview.src = '';
   adForm.reset();
   slider.noUiSlider.reset();
   pristine.reset();
@@ -206,4 +236,3 @@ const setNoticeFormSubmit = (...resets) => {
 };
 
 export {toggleFormMode, fillAddress, setNoticeFormSubmit, resetAdForm};
-
