@@ -1,6 +1,6 @@
 import {FILE_TYPES} from './constants.js';
 
-const previewUploadedImage = (chooser, preview) => {
+const showUploadedImage = (chooser, preview) => {
   const file = chooser.files[0];
   const fileName = file.name.toLowerCase();
 
@@ -12,4 +12,4 @@ const previewUploadedImage = (chooser, preview) => {
 
 };
 
-export {previewUploadedImage};
+export {showUploadedImage};
