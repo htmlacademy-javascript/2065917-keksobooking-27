@@ -51,6 +51,7 @@ const RENEDER_DELAY = 500;
 
 // валидные типы изображений для загрузки
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const DEFAULT_AVATAR = './img/muffin-grey.svg';
 
 
 export {
@@ -67,4 +68,5 @@ export {
   PriceRange,
   RENEDER_DELAY,
   FILE_TYPES,
+  DEFAULT_AVATAR,
 };

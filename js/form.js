@@ -5,8 +5,9 @@ import {
   PRICE_MIN_VALUE,
   ROOMS_TO_GUESTS,
   GUESTS_TO_ROOMS,
+  DEFAULT_AVATAR,
 } from './constants.js';
-import {previewUploadedImage} from './images.js';
+import {showUploadedImage} from './images.js';
 
 // ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ СОСТОЯНИЯ ФОРМ
 
@@ -27,7 +28,7 @@ avatarPreview.style.border = '1px solid transparent';
 avatarPreview.style.borderRadius = '5px';
 
 avatarChooser.addEventListener('change', () => {
-  previewUploadedImage(avatarChooser, avatarPreview);
+  showUploadedImage(avatarChooser, avatarPreview);
 });
 
 const photoChooser = adForm.querySelector('#images');
@@ -42,7 +43,7 @@ photoPreview.style.borderRadius = '5px';
 photoPreviewContainer.appendChild(photoPreview);
 
 photoChooser.addEventListener('change', () => {
-  previewUploadedImage(photoChooser, photoPreview);
+  showUploadedImage(photoChooser, photoPreview);
 });
 
 // валидация формы
@@ -95,9 +96,8 @@ const getPriceErrorText = () => {
     return `Не более ${PRICE_MAX_VALUE} руб.`;
   } else if (parseInt(price.value, 10) < price.min) {
     return `Не менее ${PRICE_MIN_VALUE[housingType.value]} руб.`;
-  } else {
-    return 'Неизвестная ошибка!';
   }
+  return 'Неизвестная ошибка!';
 };
 
 //слайдер цены
@@ -145,14 +145,14 @@ timeFieldset.addEventListener('change', (evt) => {
 });
 
 // валидация количества комнат и количетсва гостей
-const rooms = adForm.querySelector('#room_number');
-const guests = adForm.querySelector('#capacity');
+const roomsField = adForm.querySelector('#room_number');
+const guestsFiled = adForm.querySelector('#capacity');
 
-const validRooms = () => ROOMS_TO_GUESTS[rooms.value].includes(guests.value);
-const validGuests = () => GUESTS_TO_ROOMS[guests.value].includes(rooms.value);
+const validateRooms = () => ROOMS_TO_GUESTS[roomsField.value].includes(guestsFiled.value);
+const validateGuests = () => GUESTS_TO_ROOMS[guestsFiled.value].includes(roomsField.value);
 
 const getRoomsErrorText = () => {
-  switch (rooms.value) {
+  switch (roomsField.value) {
     case '1': return 'Для 1 гостя';
     case '2': return 'От 1 до 2 гостей';
     case '3': return 'От 1 до 3 гостей';
@@ -161,12 +161,12 @@ const getRoomsErrorText = () => {
   }
 };
 
-const getGuestsErrorText = () => (guests.value === '0') ? 'Слишком мало комнат' : 'Слишком много гостей';
+const getGuestsErrorText = () => (guestsFiled.value === '0') ? 'Слишком мало комнат' : 'Слишком много гостей';
 
 // валидация формы
 pristine.addValidator(price, validatePrice, getPriceErrorText);
-pristine.addValidator(rooms, validGuests, getRoomsErrorText);
-pristine.addValidator(guests, validRooms, getGuestsErrorText);
+pristine.addValidator(roomsField, validateGuests, getRoomsErrorText);
+pristine.addValidator(guestsFiled, validateRooms, getGuestsErrorText);
 
 slider.noUiSlider.on('change', () => {
   pristine.validate(price);
@@ -182,14 +182,14 @@ slider.noUiSlider.on('change', () => {
   });
 });
 
-[rooms, guests].forEach((select) => {
+[roomsField, guestsFiled].forEach((select) => {
   select.addEventListener('change', () => {
-    pristine.validate([rooms, guests]);
+    pristine.validate([roomsField, guestsFiled]);
   });
 });
 
 const resetAdForm = () => {
-  avatarPreview.src = './img/muffin-grey.svg';
+  avatarPreview.src = DEFAULT_AVATAR;
   photoPreview.src = '';
   adForm.reset();
   slider.noUiSlider.reset();

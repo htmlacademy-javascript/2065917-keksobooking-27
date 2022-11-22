@@ -33,34 +33,34 @@ const getNewCard = ({author, offer}) => {
   };
 
   // методы для заполнения необязательных полей
-  const nodeCallback = {
-    avatar: () => {
+  const fillOptionalFields = {
+    avatar() {
       cardNode.querySelector('.popup__avatar').src = optionalValues.avatar;
     },
 
-    features: () => {
+    features() {
       const featureList = cardNode.querySelectorAll('.popup__feature');
-      const featureArray = optionalValues.features.map((featureItem) => `popup__feature--${featureItem}`);
+      const features = optionalValues.features.map((featureItem) => `popup__feature--${featureItem}`);
       featureList.forEach((listItem) => {
         const feature = listItem.classList[1];
-        if (!featureArray.includes(feature)) {
+        if (!features.includes(feature)) {
           listItem.remove();
         }
       });
     },
 
-    description: () => {
+    description() {
       cardNode.querySelector('.popup__description').textContent = optionalValues.description;
     },
 
-    photos: () => {
+    photos() {
       const photoTemplate = cardNode.querySelector('.popup__photo');
-      const photosNode = cardNode.querySelector('.popup__photos');
-      photosNode.removeChild(photosNode.lastElementChild);
+      const photoNode = cardNode.querySelector('.popup__photos');
+      photoNode.removeChild(photoNode.lastElementChild);
       optionalValues.photos.forEach((photoSource) => {
         const newPhoto = photoTemplate.cloneNode(false);
         newPhoto.src = photoSource;
-        photosNode.appendChild(newPhoto);
+        photoNode.appendChild(newPhoto);
       });
     },
   };
@@ -72,7 +72,7 @@ const getNewCard = ({author, offer}) => {
     ) {
       optionalNodes[item].remove();
     } else {
-      nodeCallback[item]();
+      fillOptionalFields[item]();
     }
   });
 

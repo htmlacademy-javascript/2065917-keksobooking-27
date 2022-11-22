@@ -1,6 +1,7 @@
 // сообщение об ошибке загрузки данных с сервера
+const map = document.querySelector('#map-canvas');
+
 const showErrorMessage = (message) => {
-  const map = document.querySelector('#map-canvas');
 
   const errorMessage = document.createElement('div');
   errorMessage.textContent = message;
@@ -34,12 +35,12 @@ const showModalMessage = (modalType) => {
   const modal = modalTemplate.cloneNode(true);
   const modalButton = modal.querySelector('.error__button');
 
-  const onClick = () => {
+  const onModalClick = () => {
     hideModal();
   };
 
   if (modalButton !== null) {
-    modalButton.addEventListener('click', onClick);
+    modalButton.addEventListener('click', onModalClick);
   }
 
   const onModalEscKeydown = (evt) => {
@@ -50,13 +51,13 @@ const showModalMessage = (modalType) => {
 
   const showModal = () => {
     document.body.appendChild(modal);
-    document.addEventListener('click', onClick);
+    document.addEventListener('click', onModalClick);
     document.addEventListener('keydown', onModalEscKeydown);
   };
 
   function hideModal() {
     document.body.removeChild(modal);
-    document.removeEventListener('click', onClick);
+    document.removeEventListener('click', onModalClick);
     document.removeEventListener('keydown', onModalEscKeydown);
   }
 

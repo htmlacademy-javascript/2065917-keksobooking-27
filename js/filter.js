@@ -1,6 +1,10 @@
 import {CARDS_MAX_QUANTITY, PriceRange} from './constants.js';
 
 const filterForm = document.querySelector('.map__filters');
+const typeFilter = filterForm.querySelector('#housing-type');
+const priceFilter = filterForm.querySelector('#housing-price');
+const roomsFilter = filterForm.querySelector('#housing-rooms');
+const guestsFilter = filterForm.querySelector('#housing-guests');
 
 // фильтрация по чекбоксам
 const compareFeatureList = (offer) => {
@@ -33,46 +37,38 @@ const compareFeatureList = (offer) => {
 const filterCards = (cards, cb = '') => {
 
   // функции филтрации по выпадающим спискам
-  const typeFilter = filterForm.querySelector('#housing-type');
-  const priceFilter = filterForm.querySelector('#housing-price');
-  const roomsFilter = filterForm.querySelector('#housing-rooms');
-  const guestsFilter = filterForm.querySelector('#housing-guests');
-
   const compareType = (offer) => {
     if (typeFilter.value === 'any') {
       return true;
-    } else {
-      return offer.type === typeFilter.value;
     }
+
+    return offer.type === typeFilter.value;
   };
 
   const comparePrice = (offer) => {
     if (priceFilter.value === 'any') {
       return true;
-    } else {
-      switch(priceFilter.value) {
-        case 'low' : return offer.price < PriceRange.LOW;
-        case 'middle' : return offer.price < PriceRange.MIDDLE && offer.price >= PriceRange.LOW;
-        case 'high' : return offer.price >= PriceRange.MIDDLE;
-        default: return false;
-      }
+    }
+    switch(priceFilter.value) {
+      case 'low' : return offer.price < PriceRange.LOW;
+      case 'middle' : return offer.price < PriceRange.MIDDLE && offer.price >= PriceRange.LOW;
+      case 'high' : return offer.price >= PriceRange.MIDDLE;
+      default: return false;
     }
   };
 
   const compareRooms = (offer) => {
     if (roomsFilter.value === 'any') {
       return true;
-    } else {
-      return offer.rooms === +roomsFilter.value;
     }
+    return offer.rooms === +roomsFilter.value;
   };
 
   const compareGuests = (offer) => {
     if (guestsFilter.value === 'any') {
       return true;
-    } else {
-      return offer.guests === +guestsFilter.value;
     }
+    return offer.guests === +guestsFilter.value;
   };
 
   // фильтрация по выпадающим спискам
