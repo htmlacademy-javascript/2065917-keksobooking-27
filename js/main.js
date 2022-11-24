@@ -4,7 +4,7 @@ import {getCards} from './data-load.js';
 import {showErrorMessage} from './message.js';
 import {filterCards, setFilters, resetFilterForm} from './filter.js';
 import {RENEDER_DELAY} from './constants.js';
-import {debounce} from './utils.js';
+import {applyDebounce} from './utils.js';
 
 // блокировка форм по-умолчанию
 const adForm = document.querySelector('.ad-form');
@@ -34,7 +34,7 @@ getCards(
   (cards) => {
     toggleFormMode(filterForm);
     getCardsArray(cards);
-    setFilters(debounce(
+    setFilters(applyDebounce(
       () => {
         resetMap();
         getCardsArray(cards, () => showErrorMessage('Нет объявлений, удовлетворяющих условию поиска'));

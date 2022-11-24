@@ -34,11 +34,11 @@ const getNewCard = ({author, offer}) => {
 
   // методы для заполнения необязательных полей
   const fillOptionalFields = {
-    avatar() {
+    fillAvatar() {
       cardNode.querySelector('.popup__avatar').src = optionalValues.avatar;
     },
 
-    features() {
+    fillFeatures() {
       const featureList = cardNode.querySelectorAll('.popup__feature');
       const features = optionalValues.features.map((featureItem) => `popup__feature--${featureItem}`);
       featureList.forEach((listItem) => {
@@ -49,11 +49,11 @@ const getNewCard = ({author, offer}) => {
       });
     },
 
-    description() {
+    fillDescription() {
       cardNode.querySelector('.popup__description').textContent = optionalValues.description;
     },
 
-    photos() {
+    fillPhotos() {
       const photoTemplate = cardNode.querySelector('.popup__photo');
       const photoNode = cardNode.querySelector('.popup__photos');
       photoNode.removeChild(photoNode.lastElementChild);
@@ -72,7 +72,21 @@ const getNewCard = ({author, offer}) => {
     ) {
       optionalNodes[item].remove();
     } else {
-      fillOptionalFields[item]();
+      switch(item) {
+        case 'avatar':
+          fillOptionalFields.fillAvatar();
+          break;
+        case 'features':
+          fillOptionalFields.fillFeatures();
+          break;
+        case 'description':
+          fillOptionalFields.fillDescription();
+          break;
+        case 'photos':
+          fillOptionalFields.fillPhotos();
+          break;
+        default: optionalNodes[item].remove();
+      }
     }
   });
 
