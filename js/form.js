@@ -1,6 +1,7 @@
 import {sendNotice} from './data-load.js';
 import {showModalMessage} from './message.js';
 import {
+  LAT_LNG_DECIMAL_PLACE,
   PRICE_MAX_VALUE,
   PRICE_MIN_VALUE,
   ROOMS_TO_GUESTS,
@@ -74,7 +75,7 @@ Pristine.addMessages('ru', {
 address.setAttribute('readonly', 'readonly');
 
 const fillAddress = ({lat, lng}) => {
-  address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  address.value = `${lat.toFixed(LAT_LNG_DECIMAL_PLACE)}, ${lng.toFixed(LAT_LNG_DECIMAL_PLACE)}`;
   pristine.validate(address);
 };
 

@@ -1,4 +1,4 @@
-import {MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE, MARKER_SIZE, MAIN_MARKER_SIZE} from './constants.js';
+import {MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE, MARKER_SIZE, MAIN_MARKER_SIZE, POPUP_OPTIONS} from './constants.js';
 import {getNewCard} from './card.js';
 
 import {
@@ -77,13 +77,9 @@ const renderMarker = (card) => {
     }
   );
 
-  const popupOptions = {
-    offset: [0.5, -20],
-  };
-
   marker
     .addTo(markerLayer)
-    .bindPopup(getNewCard(card), popupOptions);
+    .bindPopup(getNewCard(card), POPUP_OPTIONS);
 };
 
 // сброс карты и маркера

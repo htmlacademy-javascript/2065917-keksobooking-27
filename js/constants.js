@@ -3,9 +3,11 @@ const MAP_DEFAULT_CENTER = {lat: 35.68238, lng: 139.75225,};
 const MAP_DEFAULT_SCALE = 13;
 const MARKER_SIZE = 40;
 const MAIN_MARKER_SIZE = 52;
+const POPUP_OPTIONS = {offset: [0.5, -20]};
 
 
 // настройки валидации формы
+const LAT_LNG_DECIMAL_PLACE = 5;
 const PRICE_MAX_VALUE = 100000;
 const PRICE_MIN_VALUE = {
   bungalow: 0,
@@ -59,6 +61,8 @@ export {
   MAP_DEFAULT_SCALE,
   MARKER_SIZE,
   MAIN_MARKER_SIZE,
+  POPUP_OPTIONS,
+  LAT_LNG_DECIMAL_PLACE,
   PRICE_MAX_VALUE,
   PRICE_MIN_VALUE,
   ROOMS_TO_GUESTS,

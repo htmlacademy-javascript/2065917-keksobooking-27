@@ -1,4 +1,4 @@
-const applyDebounce = (callback, timeoutDelay = 500) => {
+const applyDebounce = (callback, timeoutDelay) => {
   let timeoutId;
 
   return (...rest) => {
