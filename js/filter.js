@@ -12,12 +12,12 @@ const compareFeatureList = (offer) => {
 
   let featuresCounter = 0;
 
-  if (!offer.features) {
-    return {shown: false, rank: 0};
+  if (featuresCheckboxes.length === 0) {
+    return {shown: true, rank: 0};
   }
 
-  if (featuresCheckboxes.length === 0) {
-    return {shown: true, rank: offer.features.length};
+  if (!offer.features) {
+    return {shown: false, rank: 0};
   }
 
   featuresCheckboxes.forEach((checkbox) => {

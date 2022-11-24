@@ -10,11 +10,11 @@ import {applyDebounce} from './utils.js';
 const adForm = document.querySelector('.ad-form');
 const slider = document.querySelector('.ad-form__slider');
 const filterForm = document.querySelector('.map__filters');
+const resetButton = document.querySelector('.ad-form__reset');
 
 [adForm, filterForm].forEach((form) => toggleFormMode(form));
 slider.setAttribute('disabled', 'true');
 
-const resetButton = document.querySelector('.ad-form__reset');
 
 // функция фильтрации и отрисовки объявлений
 const getCardsArray = (cards, cb = '') => filterCards(cards, cb).forEach(renderMarker);

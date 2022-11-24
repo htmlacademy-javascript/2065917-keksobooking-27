@@ -7,15 +7,6 @@ const cardTemplate = document.querySelector('#card').content.querySelector('.pop
 const getNewCard = ({author, offer}) => {
   const cardNode = cardTemplate.cloneNode(true);
 
-  // обязательные поля
-  cardNode.querySelector('.popup__title').textContent = offer.title;
-  cardNode.querySelector('.popup__text--address').textContent = offer.address;
-  cardNode.querySelector('.popup__text--price').textContent = `${offer.price}`;
-  cardNode.querySelector('.popup__text--price').innerHTML += ' <span>₽/ночь</span>';
-  cardNode.querySelector('.popup__type').textContent = HOUSING_TYPES_DICTIONARY[offer.type];
-  cardNode.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-  cardNode.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-
   // необязательные поля
   const optionalNodes = {
     avatar: cardNode.querySelector('.popup__avatar'),
@@ -64,6 +55,16 @@ const getNewCard = ({author, offer}) => {
       });
     },
   };
+
+  // обязательные поля
+  cardNode.querySelector('.popup__title').textContent = offer.title;
+  cardNode.querySelector('.popup__text--address').textContent = offer.address;
+  cardNode.querySelector('.popup__text--price').textContent = `${offer.price}`;
+  cardNode.querySelector('.popup__text--price').innerHTML += ' <span>₽/ночь</span>';
+  cardNode.querySelector('.popup__type').textContent = HOUSING_TYPES_DICTIONARY[offer.type];
+  cardNode.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  cardNode.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+
 
   // заполение необязательных данных с проверкой на отсутсвие
   Object.keys(optionalValues).forEach((item) => {
