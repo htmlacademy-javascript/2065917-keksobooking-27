@@ -47,12 +47,21 @@ photoChooser.addEventListener('change', () => {
 });
 
 // функция переключения состояния форм
-const toggleFormMode = (formNode) => {
+const toggleFormMode = (formNode, ...otherNodes) => () => {
   formNode.classList.toggle(`${formNode.classList[0]}--disabled`);
   Array.from(formNode.children).forEach((field) => {
     field.disabled = !field.disabled;
   });
+  otherNodes.forEach((node) => {
+    if (node.hasAttribute('disabled')) {
+      node.removeAttribute('disabled');
+    } else {
+      node.setAttribute('disabled', true);
+    }
+  });
 };
+
+const toggleAdForm = toggleFormMode(adForm, slider);
 
 // валидация формы
 const pristine = new Pristine(adForm, {
@@ -230,4 +239,4 @@ const setNoticeFormSubmit = (...resets) => {
   });
 };
 
-export {toggleFormMode, fillAddress, setNoticeFormSubmit, resetAdForm};
+export {toggleFormMode, toggleAdForm, fillAddress, setNoticeFormSubmit, resetAdForm};

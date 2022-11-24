@@ -1,10 +1,13 @@
 import {CARDS_MAX_QUANTITY, PriceRange} from './constants.js';
+import {toggleFormMode} from './form.js';
 
 const filterForm = document.querySelector('.map__filters');
 const typeFilter = filterForm.querySelector('#housing-type');
 const priceFilter = filterForm.querySelector('#housing-price');
 const roomsFilter = filterForm.querySelector('#housing-rooms');
 const guestsFilter = filterForm.querySelector('#housing-guests');
+
+const toggleFilterForm = toggleFormMode(filterForm);
 
 // фильтрация по чекбоксам
 const compareFeatureList = (offer) => {
@@ -102,4 +105,4 @@ const resetFilterForm = () => {
   filterForm.reset();
 };
 
-export {filterCards, setFilters, resetFilterForm};
+export {toggleFilterForm, filterCards, setFilters, resetFilterForm};
