@@ -1,21 +1,12 @@
-import {MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE, MARKER_SIZE, MAIN_MARKER_SIZE} from './constants.js';
+import {MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE, MARKER_SIZE, MAIN_MARKER_SIZE, POPUP_OPTIONS} from './constants.js';
 import {getNewCard} from './card.js';
+import {fillAddress, toggleFilterForm} from './form.js';
 
-import {
-  toggleFormMode,
-  fillAddress,
-} from './form.js';
-
-const adForm = document.querySelector('.ad-form');
-const slider = document.querySelector('.ad-form__slider');
-
-//создание карты и включение формы подачи лбъявления при загрузке
 const map = L.map('map-canvas', {fadeAnimation: false});
 
 map.on('load', () => {
   setTimeout(() => {
-    toggleFormMode(adForm);
-    slider.removeAttribute('disabled');
+    toggleFilterForm();
   }, 0);
 })
   .setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE);
@@ -77,13 +68,9 @@ const renderMarker = (card) => {
     }
   );
 
-  const popupOptions = {
-    offset: [0.5, -20],
-  };
-
   marker
     .addTo(markerLayer)
-    .bindPopup(getNewCard(card), popupOptions);
+    .bindPopup(getNewCard(card), POPUP_OPTIONS);
 };
 
 // сброс карты и маркера

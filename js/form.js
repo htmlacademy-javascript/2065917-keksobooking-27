@@ -1,6 +1,7 @@
 import {sendNotice} from './data-load.js';
 import {showModalMessage} from './message.js';
 import {
+  LAT_LNG_DECIMAL_PLACE,
   PRICE_MAX_VALUE,
   PRICE_MIN_VALUE,
   ROOMS_TO_GUESTS,
@@ -9,31 +10,27 @@ import {
 } from './constants.js';
 import {showUploadedImage} from './images.js';
 
-// ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ СОСТОЯНИЯ ФОРМ
-
-const toggleFormMode = (formNode) => {
-  formNode.classList.toggle(`${formNode.classList[0]}--disabled`);
-  Array.from(formNode.children).forEach((field) => {
-    field.disabled = !field.disabled;
-  });
-};
-
 const adForm = document.querySelector('.ad-form');
-
-// загрузка предпросмотра изображений
+const filterForm = document.querySelector('.map__filters');
 const avatarChooser = adForm.querySelector('#avatar');
 const avatarPreview = adForm.querySelector('.ad-form-header__preview img');
+const photoChooser = adForm.querySelector('#images');
+const photoPreviewContainer = adForm.querySelector('.ad-form__photo');
+const photoPreview = document.createElement('img');
+const address = adForm.querySelector('#address');
+const housingType = adForm.querySelector('#type');
+const price = adForm.querySelector('#price');
+const slider = adForm.querySelector('.ad-form__slider');
+const timeFieldset = adForm.querySelector('.ad-form__element--time');
+const timeInOut = timeFieldset.querySelectorAll('select');
+const roomsField = adForm.querySelector('#room_number');
+const guestsFiled = adForm.querySelector('#capacity');
+const submitButton = adForm.querySelector('.ad-form__submit');
+
 avatarPreview.style.objectFit = 'cover';
 avatarPreview.style.border = '1px solid transparent';
 avatarPreview.style.borderRadius = '5px';
 
-avatarChooser.addEventListener('change', () => {
-  showUploadedImage(avatarChooser, avatarPreview);
-});
-
-const photoChooser = adForm.querySelector('#images');
-const photoPreviewContainer = adForm.querySelector('.ad-form__photo');
-const photoPreview = document.createElement('img');
 photoPreview.style.objectFit = 'cover';
 photoPreview.style.width = '100%';
 photoPreview.style.height = '100%';
@@ -42,9 +39,31 @@ photoPreview.style.borderRadius = '5px';
 
 photoPreviewContainer.appendChild(photoPreview);
 
+avatarChooser.addEventListener('change', () => {
+  showUploadedImage(avatarChooser, avatarPreview);
+});
+
 photoChooser.addEventListener('change', () => {
   showUploadedImage(photoChooser, photoPreview);
 });
+
+// функция переключения состояния форм
+const toggleFormMode = (formNode, ...otherNodes) => () => {
+  formNode.classList.toggle(`${formNode.classList[0]}--disabled`);
+  Array.from(formNode.children).forEach((field) => {
+    field.disabled = !field.disabled;
+  });
+  otherNodes.forEach((node) => {
+    if (node.hasAttribute('disabled')) {
+      node.removeAttribute('disabled');
+    } else {
+      node.setAttribute('disabled', true);
+    }
+  });
+};
+
+const toggleAdForm = toggleFormMode(adForm, slider);
+const toggleFilterForm = toggleFormMode(filterForm);
 
 // валидация формы
 const pristine = new Pristine(adForm, {
@@ -64,17 +83,14 @@ Pristine.addMessages('ru', {
 });
 
 //заполнение адреса
-const address = adForm.querySelector('#address');
 address.setAttribute('readonly', 'readonly');
 
 const fillAddress = ({lat, lng}) => {
-  address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  address.value = `${lat.toFixed(LAT_LNG_DECIMAL_PLACE)}, ${lng.toFixed(LAT_LNG_DECIMAL_PLACE)}`;
   pristine.validate(address);
 };
 
 // валидация цены
-const housingType = adForm.querySelector('#type');
-const price = adForm.querySelector('#price');
 price.min = PRICE_MIN_VALUE[housingType.value];
 price.max = PRICE_MAX_VALUE;
 
@@ -101,8 +117,6 @@ const getPriceErrorText = () => {
 };
 
 //слайдер цены
-const slider = adForm.querySelector('.ad-form__slider');
-
 noUiSlider.create(
   slider,
   {
@@ -135,9 +149,6 @@ price.addEventListener('change', () => {
 });
 
 //синхронизация времени заезда-выезда
-const timeFieldset = adForm.querySelector('.ad-form__element--time');
-const timeInOut = timeFieldset.querySelectorAll('select');
-
 timeFieldset.addEventListener('change', (evt) => {
   timeInOut.forEach((select) => {
     select.value = evt.target.value;
@@ -145,9 +156,6 @@ timeFieldset.addEventListener('change', (evt) => {
 });
 
 // валидация количества комнат и количетсва гостей
-const roomsField = adForm.querySelector('#room_number');
-const guestsFiled = adForm.querySelector('#capacity');
-
 const validateRooms = () => ROOMS_TO_GUESTS[roomsField.value].includes(guestsFiled.value);
 const validateGuests = () => GUESTS_TO_ROOMS[guestsFiled.value].includes(roomsField.value);
 
@@ -196,8 +204,6 @@ const resetAdForm = () => {
   pristine.reset();
 };
 
-const submitButton = adForm.querySelector('.ad-form__submit');
-
 const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.style.opacity = '0.6';
@@ -235,4 +241,4 @@ const setNoticeFormSubmit = (...resets) => {
   });
 };
 
-export {toggleFormMode, fillAddress, setNoticeFormSubmit, resetAdForm};
+export {toggleFilterForm, toggleAdForm, fillAddress, setNoticeFormSubmit, resetAdForm};
