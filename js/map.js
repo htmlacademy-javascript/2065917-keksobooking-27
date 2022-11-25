@@ -1,10 +1,7 @@
 import {MAP_DEFAULT_CENTER, MAP_DEFAULT_SCALE, MARKER_SIZE, MAIN_MARKER_SIZE, POPUP_OPTIONS} from './constants.js';
 import {getNewCard} from './card.js';
-import {toggleFilterForm} from './filter.js';
+import {fillAddress, toggleFilterForm} from './form.js';
 
-import {fillAddress} from './form.js';
-
-//создание карты и включение формы подачи лбъявления при загрузке
 const map = L.map('map-canvas', {fadeAnimation: false});
 
 map.on('load', () => {

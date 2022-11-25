@@ -11,6 +11,7 @@ import {
 import {showUploadedImage} from './images.js';
 
 const adForm = document.querySelector('.ad-form');
+const filterForm = document.querySelector('.map__filters');
 const avatarChooser = adForm.querySelector('#avatar');
 const avatarPreview = adForm.querySelector('.ad-form-header__preview img');
 const photoChooser = adForm.querySelector('#images');
@@ -62,6 +63,7 @@ const toggleFormMode = (formNode, ...otherNodes) => () => {
 };
 
 const toggleAdForm = toggleFormMode(adForm, slider);
+const toggleFilterForm = toggleFormMode(filterForm);
 
 // валидация формы
 const pristine = new Pristine(adForm, {
@@ -239,4 +241,4 @@ const setNoticeFormSubmit = (...resets) => {
   });
 };
 
-export {toggleFormMode, toggleAdForm, fillAddress, setNoticeFormSubmit, resetAdForm};
+export {toggleFilterForm, toggleAdForm, fillAddress, setNoticeFormSubmit, resetAdForm};
