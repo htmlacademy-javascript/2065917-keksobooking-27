@@ -157,6 +157,7 @@ timeFieldset.addEventListener('change', (evt) => {
 
 // валидация количества комнат и количетсва гостей
 const validateRooms = () => ROOMS_TO_GUESTS[roomsField.value].includes(guestsFiled.value);
+
 const validateGuests = () => GUESTS_TO_ROOMS[guestsFiled.value].includes(roomsField.value);
 
 const getRoomsErrorText = () => {
